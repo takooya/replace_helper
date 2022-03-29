@@ -1,4 +1,4 @@
-package org.example.i18n.domain.dto;
+package org.example.i18n.domain.param;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,15 @@ import org.example.i18n.domain.bases.CommonLoopBase;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class LoopFileVo extends CommonLoopBase {
-    private String source;
-    private String target;
+public class LoopFileSimpleParam extends CommonLoopBase {
+    /**
+     * 入参
+     * 资源路径
+     */
+    private String sourcesPath;
+    /**
+     * 入参
+     * 目标路径
+     */
+    private String targetsPath;
 }

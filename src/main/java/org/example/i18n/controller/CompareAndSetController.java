@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.example.i18n.domain.bases.ReplaceInfo;
-import org.example.i18n.domain.dto.LoopFileVo;
+import org.example.i18n.domain.param.LoopFileSimpleParam;
 import org.example.i18n.exceptions.JumpOutException;
 import org.example.i18n.utils.DirectoryUtil;
 import org.example.i18n.utils.SimilarStringUtil;
@@ -35,12 +35,12 @@ public class CompareAndSetController {
      * @return 修改位置与内容 或 修改条数
      */
     @RequestMapping("/addCommend")
-    public List<ReplaceInfo> addCommend(@Valid @RequestBody LoopFileVo param) {
+    public List<ReplaceInfo> addCommend(@Valid @RequestBody LoopFileSimpleParam param) {
         // 获取资源路径
-        String sourceDir = param.getSource();
+        String sourceDir = param.getSourcesPath();
         File sources = new File(sourceDir);
         // 获取目标资源路径
-        String targetDir = param.getTarget();
+        String targetDir = param.getTargetsPath();
         AtomicInteger changeCount = new AtomicInteger();
         // 记录结果
         DirectoryUtil.loopFiles(sources, file -> {

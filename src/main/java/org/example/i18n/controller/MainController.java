@@ -10,7 +10,7 @@ import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
-import org.example.i18n.domain.dto.LoopFileParam;
+import org.example.i18n.domain.param.LoopFileParam;
 import org.example.i18n.domain.entity.DictInfo;
 import org.example.i18n.domain.entity.PropertiesMap;
 import org.example.i18n.domain.entity.WriteResult;

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.text.CharSequenceUtil;
-import org.example.i18n.domain.dto.LoopFileParam;
+import org.example.i18n.domain.param.LoopFileParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;

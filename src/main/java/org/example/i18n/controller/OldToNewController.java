@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
 import org.example.i18n.domain.param.LoopFile2MapParam;
-import org.example.i18n.domain.dto.LoopFileParam;
+import org.example.i18n.domain.param.LoopFileParam;
 import org.example.i18n.domain.bases.ReplaceInfo;
 import org.example.i18n.temp.MainUtil;
 import org.example.i18n.utils.DirectoryUtil;

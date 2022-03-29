@@ -11,7 +11,7 @@ import org.example.i18n.domain.param.LoopFile2MapParam;
 import org.example.i18n.domain.param.Multi2OneParam;
 import org.example.i18n.domain.dto.Multi2OnePatternDto;
 import org.example.i18n.domain.bases.ReplaceInfo;
-import org.example.i18n.domain.dto.ThisAppendParam;
+import org.example.i18n.domain.param.ThisAppendParam;
 import org.example.i18n.exceptions.JumpOutException;
 import org.example.i18n.temp.MainUtil;
 import org.example.i18n.utils.DirectoryUtil;
@@ -591,4 +591,94 @@ public class DecompileController {
             throw new JumpOutException("文件变更计数,共计:" + changeCount.get(), 200);
         }
     }
+
+
+    /**
+     * 根据资源文件和目标文件,将行的尾行注释从资源文件添加到目标文件
+     * * 资源文件包含尾行注释的原文件
+     * * 目标文件不包含包含尾行注释的反编译java文件
+     *
+     * @param param check 检查还是修改
+     *              sourcesPath 资源路径地址
+     *              targetsPath 目标路径地址
+     *              appendStr 拼接字符串
+     *              targetsType 目标类型
+     *              filtersType 过滤类型
+     * @return 检查结果或替换是否成功
+     */
+    @RequestMapping("/removeEmptyLine")
+    public List<ReplaceInfo> removeEmptyLine(@Valid @RequestBody ThisAppendParam param) {
+        // 获取资源路径
+        String sourcesPath = param.getSourcesPath();
+        // 获取资源文件夹
+        File sources = MainUtil.checkAndGetFile(sourcesPath);
+        param.setSources(sources);
+
+        // 变更计数
+        AtomicInteger changeCount = new AtomicInteger();
+        DirectoryUtil.loopFiles(sources, sourceFile -> {
+            boolean pass = param.pass(sourceFile);
+            if (pass) {
+                return;
+            }
+            List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
+            Map<String, String> trimWithoutCommentMap = new HashMap<>();
+            for (String row : rowList) {
+                if (!row.trim().contains("//")) {
+                    continue;
+                }
+                if (row.trim().startsWith("//")) {
+                    continue;
+                }
+                String code = row.trim().substring(0, row.trim().indexOf("//"));
+                String comment = row.trim().substring(row.trim().indexOf("//"));
+                trimWithoutCommentMap.put(code, comment);
+            }
+            String sourcePath = sourceFile.getAbsolutePath();
+            String targetPath = sourcePath.replace(param.getSourcesPath(), param.getTargetsPath());
+            File targetFile = new File(targetPath);
+            if (!targetFile.exists()) {
+                log.warn("[-DecompileController:accept-]目标文件不存在:{}", targetPath);
+                param.addReplaceInfo(targetPath, "目标文件不存在");
+                return;
+            }
+            // 读取文件
+            List<String> targetRows = FileUtil.readLines(targetFile, StandardCharsets.UTF_8);
+            // 文件变更标识
+            AtomicBoolean fileChangeFlag = new AtomicBoolean(false);
+            // 文件变更后的文件行
+            List<String> resultRows = targetRows.stream().map(targetRow -> {
+                String comment = null;
+                String result = targetRow;
+                for (String codeKey : trimWithoutCommentMap.keySet()) {
+                    if (targetRow.trim().equals(codeKey)) {
+                        comment = trimWithoutCommentMap.get(codeKey);
+                        break;
+                    }
+                }
+                if (StrUtil.isNotBlank(comment)) {
+                    result = result + comment;
+                    // 文件修改标示变更
+                    fileChangeFlag.set(true);
+                    // 文件夹变更计数
+                    changeCount.getAndIncrement();
+                    // check结果拼装
+                    param.addReplaceInfo(targetPath, result);
+                }
+                return result;
+            }).collect(Collectors.toList());
+            if (fileChangeFlag.get()) {
+                if (!param.isCheck()) {
+                    FileUtil.writeLines(resultRows, targetFile, StandardCharsets.UTF_8, false);
+                }
+            }
+        });
+        if (param.isCheck()) {
+            return param.getReplaceInfos();
+        } else {
+            throw new JumpOutException("文件变更计数,共计:" + changeCount.get(), 200);
+        }
+    }
+
+
 }

@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "check": true,
   "targetsType": "java",
-  "source": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
-  "target": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com"
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "targetsPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com"
 }
 

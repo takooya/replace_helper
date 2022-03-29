@@ -1,4 +1,4 @@
-package org.example.i18n.domain.dto;
+package org.example.i18n.domain.param;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

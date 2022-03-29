@@ -3,7 +3,7 @@ package org.example.i18n.utils;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import org.example.i18n.domain.param.LoopFile2MapParam;
-import org.example.i18n.domain.dto.LoopFileParam;
+import org.example.i18n.domain.param.LoopFileParam;
 
 import java.io.File;
 import java.util.List;

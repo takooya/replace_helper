@@ -2,7 +2,7 @@ package org.example.i18n.temp;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import org.example.i18n.domain.dto.LoopFileParam;
+import org.example.i18n.domain.param.LoopFileParam;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
