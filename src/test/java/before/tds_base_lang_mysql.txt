@@ -1,0 +1,13 @@
+ERR.basemysql.MultiLanguageTextServiceImpl.saveFailNmainid=保存数据失败,nmainid不能为空
+ERR.basemysql.MultiLanguageTextServiceImpl.saveFailSameData=保存数据失败,存在相同数据
+ERR.basemysql.MultiLanguageTextServiceImpl.saveFailLangCode=保存数据失败,语言代码不能为空
+ERR.basemysql.MultiLanguageTextServiceImpl.saveFailTextNull=保存数据失败,文本不能为空
+ERR.basemysql.MultiLanguageTextServiceImpl.saveFailCompanyIdNull=保存数据失败,公司id不能为空
+ERR.basemysql.MultiLanguageTextServiceImpl.saveFailLongTextNull=保存数据失败,长文本不能为空
+ERR.basemysql.MultiLanguageTextServiceImpl.saveSuccess=保存成功！
+ERR.basemysql.MultiLanguageTextServiceImpl.saveFail=保存失败！
+ERR.basemysql.MultiLanguageTextServiceImpl.delSuccess=删除成功！
+ERR.basemysql.MultiLanguageTextServiceImpl.delFail=删除失败
+ERR.basemysql.MultiLanguageTextServiceImpl.delFailIdsNull=删除失败！ids不能为空
+ERR.basemysql.MultiLanguageTextServiceImpl.delFailParamWrong=删除失败！请刷新后重试,并检查传入参数是否正确
+ERR.basemysql.MultiLanguageTextServiceImpl.delFailParamNull=删除失败！入参不能为空

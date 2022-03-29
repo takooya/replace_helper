@@ -1,0 +1,5 @@
+ERR.basedynamic.DataSourceSupporter.datasourceConfigNonexist=不存在数据源配置,请检查租户信息或数据源配置
+ERR.basedynamic.DataSourceSupporter.unknowDatasourceType=未知的数据源类型
+ERR.basedynamic.DataSourceSupporterCache.datasourceColumnTypeError=数据库存储的Type字段错误,入参type:
+ERR.basedynamic.DataSourceProvider.unknowDatasourceType=不识别的数据源类型
+ERR.basedynamic.SpringContextUtils.injectError=applicaitonContext未注入,请在applicationContext.xml中定义SpringContextHolder

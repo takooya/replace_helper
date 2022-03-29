@@ -1,0 +1,11 @@
+ERR.baselock.JLock.getLockFail=获取锁失败，请稍后重试
+ERR.baselock.LockConstant.donotClickRepeat=请勿重复点击
+ERR.baselock.DistributedLockHandler.keysNull=keys不能为空
+ERR.baselock.DistributedLockHandler.paramMultiCannotLock=参数有多个,锁模式为->%s.无法锁定
+ERR.baselock.RepeatSubmitAspect.donotCommitRepeat=请勿重复提交
+ERR.baselock.RedissonManager.redisConfigLost=redis地址未配置
+ERR.baselock.RedissonManager.connModeCreateException=连接方式创建异常
+ERR.baselock.RedisConnectionType.singletonDeployMode=单机部署方式
+ERR.baselock.RedisConnectionType.sentinalDeployMode=哨兵部署方式
+ERR.baselock.RedisConnectionType.clusterMode=集群方式
+ERR.baselock.RedisConnectionType.masterSlaverDeployMode=主从部署方式

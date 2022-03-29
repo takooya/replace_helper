@@ -1,0 +1,1880 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.1">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="MEP-UCMS" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="tst环境HTTP默认值" enabled="false">
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.domain">tst-vwmep.faw-vw.com</stringProp>
+        <stringProp name="HTTPSampler.port">443</stringProp>
+        <stringProp name="HTTPSampler.protocol">https</stringProp>
+        <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+        <stringProp name="HTTPSampler.path"></stringProp>
+        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+        <stringProp name="HTTPSampler.response_timeout"></stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="pre环境HTTP默认值" enabled="false">
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.domain">pre-vwmep.faw-vw.com</stringProp>
+        <stringProp name="HTTPSampler.port">443</stringProp>
+        <stringProp name="HTTPSampler.protocol">https</stringProp>
+        <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+        <stringProp name="HTTPSampler.path"></stringProp>
+        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+        <stringProp name="HTTPSampler.response_timeout"></stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="uat环境HTTP默认值" enabled="true">
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.domain">uat-vwmep.faw-vw.com</stringProp>
+        <stringProp name="HTTPSampler.port">443</stringProp>
+        <stringProp name="HTTPSampler.protocol">https</stringProp>
+        <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+        <stringProp name="HTTPSampler.path"></stringProp>
+        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+        <stringProp name="HTTPSampler.response_timeout"></stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie管理器" enabled="true">
+        <collectionProp name="CookieManager.cookies"/>
+        <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+        <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+      </CookieManager>
+      <hashTree/>
+      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="用表格察看结果" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="1-删除原token.txt文件" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+          <stringProp name="BeanShellSampler.query">import java.io.*;
+File file = new File(&quot;D:/压力测试/大众MEP-UCMS/token.txt&quot;); 
+file.delete();
+
+
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="2-登录获取用户的jwt" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2登录-提取jwt" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;loginType&quot;:1,&quot;vLogin&quot;:&quot;${vLogin-1}&quot;,&quot;vPwd&quot;:&quot;ljid1XfZW+Ry9LOF7J8LCg==&quot;,&quot;vIp&quot;:&quot;222.168.65.151&quot;,&quot;vCity&quot;:&quot;吉林省长春市&quot;,&quot;imgCheck&quot;:&quot;&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/sys/sysLogin/emp/loginByNameOrPhoneForMany</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="content-type" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json;charset=UTF-8</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">useragent</stringProp>
+                <stringProp name="Header.value">pc</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="user_name参数" enabled="true">
+            <stringProp name="TestPlan.comments">账户号</stringProp>
+            <stringProp name="filename">D:\压力测试\大众MEP-UCMS\user_name.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">vLogin-1</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON提取器-提取jwt" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">token</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.jwt</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="723337899">&quot;code&quot;:200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell 后置处理程序" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">FileWriter fileWriter = new FileWriter(new File(&quot;D:/压力测试/大众MEP-UCMS/token.txt&quot;), true);
+BufferedWriter writer = new BufferedWriter(fileWriter);
+writer.append(&quot;&quot;+vars.get(&quot;token&quot;)+&quot;\n&quot;);
+
+writer.close();
+fileWriter.close();
+
+
+</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2登录-提取jwt-tst" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;loginType&quot;:1,&quot;vLogin&quot;:&quot;${vLogin-1}&quot;,&quot;vPwd&quot;:&quot;XgzCP68iWKmAJeQOu5kz1A==&quot;,&quot;vIp&quot;:&quot;222.168.65.151&quot;,&quot;vCity&quot;:&quot;吉林省长春市&quot;,&quot;imgCheck&quot;:&quot;&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/sys/sysLogin/emp/loginByNameOrPhoneForMany</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="content-type" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json;charset=UTF-8</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">useragent</stringProp>
+                <stringProp name="Header.value">pc</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="user_name参数" enabled="true">
+            <stringProp name="TestPlan.comments">账户号</stringProp>
+            <stringProp name="filename">D:\压力测试\大众MEP-UCMS\user_name.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">vLogin-1</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON提取器-提取jwt" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">token</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.data.jwt</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="响应断言" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="723337899">&quot;code&quot;:200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">16</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell 后置处理程序" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">FileWriter fileWriter = new FileWriter(new File(&quot;D:/压力测试/大众MEP-UCMS/token.txt&quot;), true);
+BufferedWriter writer = new BufferedWriter(fileWriter);
+writer.append(&quot;&quot;+vars.get(&quot;token&quot;)+&quot;\n&quot;);
+
+writer.close();
+fileWriter.close();
+
+
+</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="3-业务压测" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">600</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="content-type" elementType="Header">
+              <stringProp name="Header.name">content-type</stringProp>
+              <stringProp name="Header.value">application/json;charset=UTF-8</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">authorization</stringProp>
+              <stringProp name="Header.value">${token}</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置-token" enabled="true">
+          <stringProp name="filename">D:/压力测试/大众MEP-UCMS/token.txt</stringProp>
+          <stringProp name="fileEncoding">UTF-8</stringProp>
+          <stringProp name="variableNames">token</stringProp>
+          <boolProp name="ignoreFirstLine">false</boolProp>
+          <stringProp name="delimiter">,</stringProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+        </CSVDataSet>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="聚合报告" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="响应时间图" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="用表格察看结果" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="置换接口测试" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{	&quot;dNewFkdatNew&quot;: &quot;2015-11-03 00:00:00&quot;,	&quot;dealerId&quot;: &quot;S711032&quot;,	&quot;dealerName&quot;: &quot;MEP经销商USC1&quot;,	&quot;exceedText&quot;: &quot;业务提报超期原因11a&quot;,	&quot;idnr&quot;: &quot;06686072-A&quot;,	&quot;inParamSub&quot;: [{		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115452778.X9S71L.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;Z37&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115452778.X9S71L.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115345483.0guoUd.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;032&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115345483.0guoUd.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115309884.hZIyhk.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;02&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115309884.hZIyhk.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115496396.14CKVo.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;Z40&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115496396.14CKVo.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115372096.VoF1iD.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;132&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115372096.VoF1iD.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115329167.uespgp.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;023&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115329167.uespgp.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115379407.a9gXy1.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;133&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115379407.a9gXy1.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115337505.9nhiJG.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;03&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115337505.9nhiJG.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/6/21/1624260000835.gu76TC.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;01&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/6/21/1624260000835.gu76TC.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/6/21/1624259920392.zFNKBW.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;12&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/6/21/1624259920392.zFNKBW.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115388754.b0kBB1.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;14&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115388754.b0kBB1.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115401935.fSPJ7K.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;17&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115401935.fSPJ7K.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115443852.KZt0Cs.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;Z36&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115443852.KZt0Cs.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115353700.QxRN0Z.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;033&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115353700.QxRN0Z.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115410284.a89hCW.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;04&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115410284.a89hCW.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115484232.qYERNr.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;Z39&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115484232.qYERNr.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115461712.V7MFBV.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;Z38&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115461712.V7MFBV.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115365126.zR9jDm.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;13&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115365126.zR9jDm.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/6/21/1624259929539.tQL0sw.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;18&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/6/21/1624259929539.tQL0sw.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115321076.Im3ykp.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;16&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115321076.Im3ykp.jpg&quot;	}, {		&quot;BILLNO&quot;: &quot;${billNO}&quot;,		&quot;NCARVIN&quot;: &quot;${ncarvin}&quot;,		&quot;FILEEXT&quot;: &quot;JPG&quot;,		&quot;ATTDATASOURCE&quot;: &quot;E&quot;,		&quot;ATTACHMENT&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115321076.Im3ykp.jpg&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,		&quot;ITFNAME&quot;: &quot;INTREPVehicleReq&quot;,		&quot;FILETYPE&quot;: &quot;022&quot;,		&quot;DEALER&quot;: &quot;S711032&quot;,		&quot;OCARVIN&quot;: &quot;${ocarvin}&quot;,		&quot;URL&quot;: &quot;https://mep-dev-dms-1-1256532032.cos.ap-beijing.myqcloud.com/.jpg/2021/7/1/1625115321076.Im3ykp.jpg&quot;	}],	&quot;itfPubReplacementUpVwPO&quot;: {		&quot;areaSubsidy&quot;: 1.00,		&quot;attachment&quot;: &quot;1&quot;,		&quot;attachment1&quot;: &quot;1&quot;,		&quot;attachment10&quot;: &quot;1&quot;,		&quot;attachment11&quot;: &quot;1&quot;,		&quot;attachment12&quot;: &quot;1&quot;,		&quot;attachment13&quot;: &quot;1&quot;,		&quot;attachment14&quot;: &quot;1&quot;,		&quot;attachment15&quot;: &quot;1&quot;,		&quot;attachment16&quot;: &quot;1&quot;,		&quot;attachment17&quot;: &quot;1&quot;,		&quot;attachment18&quot;: &quot;1&quot;,		&quot;attachment19&quot;: &quot;1&quot;,		&quot;attachment2&quot;: &quot;1&quot;,		&quot;attachment20&quot;: &quot;1&quot;,		&quot;attachment21&quot;: &quot;1&quot;,		&quot;attachment22&quot;: &quot;1&quot;,		&quot;attachment23&quot;: &quot;1&quot;,		&quot;attachment24&quot;: &quot;1&quot;,		&quot;attachment3&quot;: &quot;1&quot;,		&quot;attachment4&quot;: &quot;1&quot;,		&quot;attachment5&quot;: &quot;1&quot;,		&quot;attachment6&quot;: &quot;1&quot;,		&quot;attachment7&quot;: &quot;1&quot;,		&quot;attachment8&quot;: &quot;1&quot;,		&quot;attachment9&quot;: &quot;1&quot;,		&quot;billdat&quot;: &quot;2020-09-31 11:30:31&quot;,		&quot;buyInNO&quot;: &quot;RK2020072700A&quot;,		&quot;cSubType&quot;: &quot;01&quot;,		&quot;carType&quot;: &quot;01&quot;,		&quot;certificateType&quot;: &quot;01&quot;,		&quot;cityName&quot;: &quot;市辖区A&quot;,		&quot;comCheckFalg&quot;: &quot;11&quot;,		&quot;createBy&quot;: &quot;sa&quot;,		&quot;createOn&quot;: &quot;2021-07-23 08:08:28&quot;,		&quot;customerCerType&quot;: &quot;06686072-A&quot;,		&quot;customerNO&quot;: &quot;06686072-A&quot;,		&quot;customerName&quot;: &quot;津市百欣颠汽今辜差觐赁有限公司A&quot;,		&quot;customerPhone&quot;: &quot;1321111222A&quot;,		&quot;customerTel&quot;: &quot;1321111222A&quot;,		&quot;customerType&quot;: &quot;02&quot;,		&quot;dateRegister&quot;: &quot;2020-07-31 00:00:00&quot;,		&quot;dealer&quot;: &quot;S711032&quot;,		&quot;firstMRDate&quot;: &quot;2021-04-11 14:06:18&quot;,		&quot;iD&quot;: &quot;d130fe9d-a8b7-4cd9-866a-7a11cab58b72&quot;,		&quot;iDR&quot;: &quot;05&quot;,		&quot;indexNOBJ&quot;: &quot;1111&quot;,		&quot;mRDate&quot;: &quot;2021-07-25 08:08:28&quot;,		&quot;nAttQua&quot;: 22,		&quot;nCarInvoiceDate&quot;: &quot;2016-06-15 00:00:00&quot;,		&quot;nCarProductCode&quot;: &quot;1G20B4 4W4WBX 0367&quot;,		&quot;nCarProductName&quot;: &quot;1.5L 手动豪华+玛雅红+黑色内饰&quot;,		&quot;nCarSaleDate&quot;: &quot;2020-07-30 12:00:00&quot;,		&quot;nCarTypeCode&quot;: &quot;0M24EV&quot;,		&quot;nCarTypeName&quot;: &quot;1.5L 手动豪华&quot;,		&quot;nCarVIN&quot;: &quot;${ncarvin}&quot;,		&quot;oCarBrandNO&quot;: &quot;1&quot;,		&quot;oCarBrandName&quot;: &quot;迈腾&quot;,		&quot;oCarBuyPrice&quot;: 15001.00,		&quot;oCarCustomerNO&quot;: &quot;91220101578942520A&quot;,		&quot;oCarCustomerName&quot;: &quot;吉林省东北亚文化创意科技园有限公司A&quot;,		&quot;oCarLicensePlate&quot;: &quot;吉B1234A&quot;,		&quot;oCarSalePrice&quot;: 1001.00,		&quot;oCarTypeCode&quot;: &quot;166941&quot;,		&quot;oCarTypeName&quot;: &quot;迈腾1.8T-A/MT-25周年纪念版DSG双离合(国Ⅴ)A&quot;,		&quot;oCarVIN&quot;: &quot;${ocarvin}&quot;,		&quot;oCertificateType&quot;: &quot;04&quot;,		&quot;oCustomerCerType&quot;: &quot;91220101578942520A&quot;,		&quot;oCustomerTel&quot;: &quot;1357890950A&quot;,		&quot;oCustomerType&quot;: &quot;06&quot;,		&quot;pKey&quot;: -1,		&quot;rEPSubsidy&quot;: 2.00,		&quot;recordVersion&quot;: 74,		&quot;remark&quot;: &quot;1&quot;,		&quot;repNO&quot;: &quot;${repNO}&quot;,		&quot;repType&quot;: &quot;01&quot;,		&quot;sAttList&quot;: &quot;Attachment16,Attachment3,Attachment4,Attachment5,Attachment9,Attachment10,Attachment11,Attachment15,Attachment1,Attachment2,Attachment7,Attachment8,Attachment17,Attachment18,Attachment19,Attachment6,Attachment20,Attachment21,Attachment22,Attachment23,Attachment24&quot;,		&quot;sCInvoiceAmtSum&quot;: 1789.99,		&quot;sCInvoiceCode&quot;: &quot;二手车交易发票代码&quot;,		&quot;sCInvoiceNo&quot;: &quot;二手车交易发票号码&quot;,		&quot;sapNCarInvoiceDate&quot;: &quot;2015-12-26 00:00:00&quot;,		&quot;sendState&quot;: &quot;03&quot;,		&quot;uniSubsidy&quot;: 3.00,		&quot;updateBy&quot;: &quot;sa&quot;,		&quot;updateOn&quot;: -1,		&quot;useCharacter&quot;: &quot;05&quot;,		&quot;userName&quot;: &quot;初祥鹏1&quot;,		&quot;vRepBusNO&quot;: &quot;20210701S99999900005&quot;,		&quot;vRepId&quot;: &quot;${vRepId}&quot;	},	&quot;purchaser&quot;: &quot;津市百欣颠汽今辜差觐赁有限公司1&quot;,	&quot;subItem&quot;: [{		&quot;vAttachPlanList&quot;: &quot;CJ010102ESCV-N&quot;,		&quot;vAttachPlan&quot;: &quot;CJ010102ESCV-N&quot;,		&quot;NCarVIN&quot;: &quot;${ncarvin}&quot;,		&quot;PolicyAmt&quot;: 0.00,		&quot;PolicyCode&quot;: &quot;ESCV-N&quot;,		&quot;OCarVIN&quot;: &quot;${ocarvin}&quot;,		&quot;Dealer&quot;: &quot;S711032&quot;	}],	&quot;vAttachPlan&quot;: &quot;CJ010101&quot;,	&quot;vBrandCode&quot;: &quot;2&quot;,	&quot;vVinCheckFlag&quot;: &quot;N&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsret/allDmsToUcmsRet/getDMUCUC176</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/getDMUCUC176.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">ncarvin,ocarvin,repNO,billNO,vRepId</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">\t</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="经销商二手车信息" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsisc/iscDealer/getPageList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护考核方案" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;createDate&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsisc/iscRetreplaceplan/getRetreplaceplanSdoList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护考核方案-保存" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;ttRetreplaceplan&quot;:{&quot;optType&quot;:&quot;01&quot;,&quot;applyArea&quot;:&quot;000&quot;,&quot;policyType&quot;:&quot;01&quot;,&quot;planCode&quot;:&quot;${planCode}&quot;,&quot;useFlag&quot;:&quot;N&quot;,&quot;dealerSumCount&quot;:&quot;&quot;,&quot;planName&quot;:&quot;${planCode}&quot;,&quot;policyBeginDate&quot;:&quot;2021-07-01 00:00:00&quot;,&quot;createPerson&quot;:&quot;&quot;,&quot;createDate&quot;:&quot;&quot;,&quot;policyEndDate&quot;:&quot;2022-07-31 00:00:00&quot;},&quot;iscRetreplaceplandealerVo&quot;:[]}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsisc/iscRetreplaceplan/saveRetreplaceplanList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/planCode.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">planCode</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="置换车辆申请审核（二手车部）" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;reqTotalState&quot;:&quot;20&quot;,&quot;mRDateList&quot;:[&quot;2021-04-24&quot;,&quot;2021-07-23&quot;],&quot;nCarSaleDateList&quot;:[],&quot;nCarInvoiceDateList&quot;:[],&quot;sapNCarInvoiceDateList&quot;:[],&quot;TBDateList&quot;:[],&quot;fkdatList&quot;:[],&quot;oCarReSubFlag&quot;:&quot;N&quot;,&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsret/ttRetreplaceappformAudit/getReplaceappformAuditList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="置换车辆申请审核（二手车部）-审核" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;ttRetreplaceappformList&quot;:[{&quot;aAKKUNNR&quot;:&quot;&quot;,&quot;aUMPDate&quot;:&quot;&quot;,&quot;aUMUserName&quot;:&quot;&quot;,&quot;accessory&quot;:&quot;&quot;,&quot;accessoryAfterCheckIn&quot;:&quot;&quot;,&quot;accessoryBeforeCheckIn&quot;:&quot;&quot;,&quot;accessoryChangeTarget&quot;:&quot;&quot;,&quot;accessoryID&quot;:&quot;&quot;,&quot;accessoryIDRTestify&quot;:&quot;&quot;,&quot;accessoryNewCarRun&quot;:&quot;&quot;,&quot;accessoryNewCarSaleInvoice&quot;:&quot;&quot;,&quot;accessoryOldCarRun&quot;:&quot;&quot;,&quot;accessoryOldCarSaleInvoice&quot;:&quot;&quot;,&quot;address&quot;:&quot;&quot;,&quot;areaAuditDate&quot;:&quot;2021-01-26 14:53:03&quot;,&quot;areaAuditPerson&quot;:&quot;9b21f4ac-65ce-11eb-9dc3-0242ac110002&quot;,&quot;areaAuditPersonName&quot;:&quot;刘 宾男&quot;,&quot;areaBoss&quot;:&quot;&quot;,&quot;areaPerson&quot;:&quot;&quot;,&quot;areaRefuseReason&quot;:&quot;&quot;,&quot;areaSubsidy&quot;:6500,&quot;attachment1&quot;:20028599,&quot;attachment10&quot;:20967036,&quot;attachment11&quot;:20028595,&quot;attachment12&quot;:&quot;&quot;,&quot;attachment13&quot;:&quot;&quot;,&quot;attachment14&quot;:&quot;&quot;,&quot;attachment15&quot;:20967037,&quot;attachment16&quot;:20028581,&quot;attachment17&quot;:20967043,&quot;attachment18&quot;:20028602,&quot;attachment19&quot;:20967048,&quot;attachment2&quot;:20967039,&quot;attachment20&quot;:20028608,&quot;attachment21&quot;:20028611,&quot;attachment22&quot;:20967055,&quot;attachment23&quot;:&quot;&quot;,&quot;attachment24&quot;:&quot;&quot;,&quot;attachment25&quot;:&quot;&quot;,&quot;attachment3&quot;:20028584,&quot;attachment4&quot;:20028587,&quot;attachment5&quot;:20028590,&quot;attachment6&quot;:20028605,&quot;attachment7&quot;:20967041,&quot;attachment8&quot;:&quot;&quot;,&quot;attachment9&quot;:20028592,&quot;bigArea&quot;:&quot;RSD4&quot;,&quot;bigAreaDes&quot;:&quot;华东区&quot;,&quot;billdat&quot;:&quot;2014-10-01 00:00:00&quot;,&quot;buyInNO&quot;:&quot;RK20200914057&quot;,&quot;cSubType&quot;:&quot;02&quot;,&quot;carCheckoutRemark&quot;:&quot;&quot;,&quot;carSeries&quot;:&quot;A2&quot;,&quot;carType&quot;:&quot;01&quot;,&quot;certificateType&quot;:&quot;01&quot;,&quot;city&quot;:&quot;&quot;,&quot;cityName&quot;:&quot;&quot;,&quot;comCheckFalg&quot;:&quot;10&quot;,&quot;controlDeptAuditDate&quot;:&quot;&quot;,&quot;controlDeptAuditPerson&quot;:&quot;&quot;,&quot;controlDeptAuditPersonName&quot;:&quot;&quot;,&quot;controlRefuseState&quot;:&quot;&quot;,&quot;county&quot;:&quot;&quot;,&quot;customerCerType&quot;:&quot;320721197411112215&quot;,&quot;customerNO&quot;:&quot;320721197411112215&quot;,&quot;customerName&quot;:&quot;陆德玉&quot;,&quot;customerPhone&quot;:&quot;15062908678&quot;,&quot;customerTel&quot;:&quot;15062908678&quot;,&quot;customerType&quot;:&quot;01&quot;,&quot;dataSource&quot;:&quot;03&quot;,&quot;dateRegister&quot;:&quot;2014-10-14 00:00:00&quot;,&quot;dealer&quot;:&quot;${dealer}&quot;,&quot;dealerId&quot;:&quot;${dealerId}&quot;,&quot;dealerName&quot;:&quot;连云港康泽汽车销售有限公司&quot;,&quot;downDSERP&quot;:&quot;&quot;,&quot;dsfCSDate&quot;:&quot;&quot;,&quot;dsfCSPerson&quot;:&quot;&quot;,&quot;dsfCSPersonName&quot;:&quot;&quot;,&quot;eMail&quot;:&quot;&quot;,&quot;fax&quot;:&quot;&quot;,&quot;firstImSAPData&quot;:&quot;1900-01-01 00:00:00&quot;,&quot;firstImSAPDataArea&quot;:&quot;1900-01-01 00:00:00&quot;,&quot;firstMRDate&quot;:&quot;2020-11-02 15:42:34&quot;,&quot;fkdat&quot;:&quot;2020-09-13 00:00:00&quot;,&quot;groupCompany&quot;:&quot;&quot;,&quot;iD&quot;:&quot;${iD}&quot;,&quot;iDR&quot;:&quot;02&quot;,&quot;iPPhone&quot;:&quot;&quot;,&quot;idnr&quot;:&quot;320721197411112215&quot;,&quot;imSAPData&quot;:&quot;&quot;,&quot;imSAPDataArea&quot;:&quot;1900-01-01 00:00:00&quot;,&quot;imSAPReason&quot;:&quot;&quot;,&quot;imSAPReasonArea&quot;:&quot;&quot;,&quot;imSAPStates&quot;:&quot;&quot;,&quot;imSAPStatesArea&quot;:&quot;&quot;,&quot;indexNOBJ&quot;:&quot;&quot;,&quot;isAUM&quot;:&quot;&quot;,&quot;isCarCheckoutPassed&quot;:&quot;&quot;,&quot;isREP&quot;:&quot;&quot;,&quot;kKFlag&quot;:&quot;N&quot;,&quot;kZWI1&quot;:&quot;&quot;,&quot;linkHeadShip&quot;:&quot;&quot;,&quot;linkMobile&quot;:&quot;&quot;,&quot;linkPerson&quot;:&quot;&quot;,&quot;linkPhone&quot;:&quot;&quot;,&quot;mRDate&quot;:&quot;2021-01-25 10:15:37&quot;,&quot;manuYear&quot;:&quot;2014&quot;,&quot;nAttQua&quot;:18,&quot;nCarBrandNO&quot;:&quot;&quot;,&quot;nCarBrandName&quot;:&quot;&quot;,&quot;nCarInvoiceDate&quot;:&quot;2020-09-13 00:00:00&quot;,&quot;nCarProductCode&quot;:&quot;A213FZ 0Q0QEL 1029&quot;,&quot;nCarSaleDate&quot;:&quot;2020-09-14 00:00:00&quot;,&quot;nCarSeriesCode&quot;:&quot;A2&quot;,&quot;nCarSeriesName&quot;:&quot;T-ROC&quot;,&quot;nCarTypeCode&quot;:&quot;A213FZ&quot;,&quot;nCarTypeName&quot;:&quot;T-ROC 280TSI自动舒适型&quot;,&quot;nCarVIN&quot;:&quot;${nCarVIN}&quot;,&quot;nMepId&quot;:&quot;${nMepId}&quot;,&quot;name&quot;:&quot;&quot;,&quot;notRequestFlag&quot;:&quot;&quot;,&quot;oCarBrandNO&quot;:&quot;566&quot;,&quot;oCarBrandName&quot;:&quot;一汽大众&quot;,&quot;oCarBuyPerson&quot;:&quot;&quot;,&quot;oCarBuyPrice&quot;:65000,&quot;oCarCustomerNO&quot;:&quot;320721197411112215&quot;,&quot;oCarLicensePlate&quot;:&quot;苏G78A18&quot;,&quot;oCarProfit&quot;:0,&quot;oCarReSubFlag&quot;:&quot;&quot;,&quot;oCarSalePrice&quot;:65000,&quot;oCarSeriesCode&quot;:&quot;566&quot;,&quot;oCarSeriesName&quot;:&quot;速腾&quot;,&quot;oCarTypeCode&quot;:&quot;148774&quot;,&quot;oCarTypeName&quot;:&quot;速腾1.4T-A/MT豪华型DSG双离合改款(国Ⅳ)201405&quot;,&quot;oCarVIN&quot;:&quot;${oCarVIN}&quot;,&quot;oCertificateType&quot;:&quot;01&quot;,&quot;oCustomerCerType&quot;:&quot;320721197411112215&quot;,&quot;oCustomerName&quot;:&quot;陆德玉&quot;,&quot;oCustomerTel&quot;:&quot;15062908678&quot;,&quot;oCustomerType&quot;:&quot;01&quot;,&quot;oldCarBrandType&quot;:&quot;01&quot;,&quot;oldCarRunType&quot;:&quot;&quot;,&quot;pKey&quot;:1713578,&quot;policyAmt&quot;:&quot;&quot;,&quot;policyCode&quot;:&quot;&quot;,&quot;policyName&quot;:&quot;&quot;,&quot;policyType&quot;:&quot;&quot;,&quot;post&quot;:&quot;&quot;,&quot;practiceDate&quot;:&quot;&quot;,&quot;proName&quot;:&quot;280TSI DQ CL+极地白+黑色内饰&quot;,&quot;purchaser&quot;:&quot;陆德玉&quot;,&quot;qkqx&quot;:4,&quot;rEPDate&quot;:&quot;&quot;,&quot;rEPSubsidy&quot;:6500,&quot;rEPUserName&quot;:&quot;&quot;,&quot;refuseCount&quot;:0,&quot;remark&quot;:&quot;&quot;,&quot;repNO&quot;:&quot;SG20200914051&quot;,&quot;repType&quot;:&quot;01&quot;,&quot;reqTotalState&quot;:&quot;20&quot;,&quot;sAPFlag&quot;:&quot;&quot;,&quot;sAttList&quot;:&quot;Attachment16,Attachment3,Attachment4,Attachment5,Attachment9,Attachment10,Attachment11,Attachment15,Attachment1,Attachment2,Attachment7,Attachment17,Attachment18,Attachment19,Attachment6,Attachment20,Attachment21,Attachment22,&quot;,&quot;sCDeptAuditDate&quot;:&quot;2021-01-25 08:39:54&quot;,&quot;sCDeptAuditPerson&quot;:&quot;VWTRAUDIT15&quot;,&quot;sCDeptAuditPersonName&quot;:&quot;&quot;,&quot;sCDeptAuditRefuseReason&quot;:&quot;超期，选择置换无请款提报，老客户置换券未上传，过户前登记证书3.4页看不清&quot;,&quot;sCDeptCS&quot;:&quot;&quot;,&quot;sCDeptCSDate&quot;:&quot;&quot;,&quot;sCDeptCSPerson&quot;:&quot;&quot;,&quot;sCDeptCSPersonName&quot;:&quot;&quot;,&quot;sCInvoiceAmtSum&quot;:10000,&quot;sCInvoiceCode&quot;:&quot;032001800217&quot;,&quot;sCInvoiceNo&quot;:&quot;00705592&quot;,&quot;salePhone&quot;:&quot;&quot;,&quot;sampleType&quot;:&quot;&quot;,&quot;sapNCarInvoiceDate&quot;:&quot;2020-09-13 00:00:00&quot;,&quot;selectFlag&quot;:&quot;N&quot;,&quot;shotDescription&quot;:&quot;&quot;,&quot;showAddress&quot;:&quot;&quot;,&quot;smallArea&quot;:&quot;402&quot;,&quot;smallAreaDes&quot;:&quot;苏北小区&quot;,&quot;speciaSubsidy&quot;:&quot;&quot;,&quot;stopBy&quot;:&quot;&quot;,&quot;stopDate&quot;:&quot;&quot;,&quot;stopFlag&quot;:&quot;&quot;,&quot;systemName&quot;:&quot;&quot;,&quot;tBDate&quot;:&quot;2020-09-14 15:54:19&quot;,&quot;tSAuditCSDate&quot;:&quot;&quot;,&quot;tSAuditCSPer&quot;:&quot;&quot;,&quot;tSAuditCSPerName&quot;:&quot;&quot;,&quot;tSAuditCSUrl&quot;:&quot;&quot;,&quot;tSAuditState&quot;:&quot;&quot;,&quot;tSAuditStateRate&quot;:&quot;&quot;,&quot;tSAuditZSDate1&quot;:&quot;&quot;,&quot;tSAuditZSDate2&quot;:&quot;&quot;,&quot;tSAuditZSPer1&quot;:&quot;&quot;,&quot;tSAuditZSPer2&quot;:&quot;&quot;,&quot;tSAuditZSPerName1&quot;:&quot;&quot;,&quot;tSAuditZSPerName2&quot;:&quot;&quot;,&quot;uniSubsidy&quot;:&quot;&quot;,&quot;upLoadFlagAreaArea&quot;:&quot;&quot;,&quot;updateOnChang&quot;:&quot;132487765910000000&quot;,&quot;uploadFlag&quot;:&quot;N&quot;,&quot;uploadFlagArea&quot;:&quot;N&quot;,&quot;useCharacter&quot;:&quot;06&quot;,&quot;userName&quot;:&quot;闫双伦&quot;,&quot;vRepBusNO&quot;:&quot;20200914S23201100364&quot;,&quot;vRepId&quot;:&quot;1aca28fe-0def-4315-aefd-aba33ca0f8c5&quot;,&quot;webAddress&quot;:&quot;&quot;}],&quot;busType&quot;:&quot;ret0503&quot;,&quot;opType&quot;:&quot;auditing&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsret/ttRetreplaceappformAudit/dealReplaceappformAuditList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">审核 select  id,nMepId,DEALER,dealerId,nCarVIN,oCarVIN from TT_RETREPLACEAPPFORM a where a.reqTotalState=&apos;20&apos; and a.mRDate &gt;= &apos;2021-05-01&apos; and a.mRDate &lt;=&apos;2021-05-10&apos; and a.tsAuditState is null</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/nMepId.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">iD,nMepId,dealer,dealerId,nCarVIN,oCarVIN</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">\t</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="置换车辆申请审核（二手车部）-审核记录" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;iD&quot;:&quot;C787CB19-6B1A-8CF8-E053-7F3FE20A1C71&quot;,&quot;dealerId&quot;:&quot;75841820-0000-0000-0000-000000000000&quot;,&quot;nCarVIN&quot;:&quot;LFV2B25N8L7140093&quot;,&quot;oCarVIN&quot;:&quot;LFV2A11G193133605&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsret/ttRetreplaceappformAudit/getReplaceappformAuditInfoList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">审核记录</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="置换请款" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;submitDateList&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsret/ttRetarearequestfund/getAreaRequestList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="置换业务提报查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;firstUploadFlag&quot;:&quot;Y&quot;,&quot;startAAKDate|endAAKDate&quot;:[],&quot;startReportDate|endReportDate&quot;:[&quot;2021-04-03 00:00:00&quot;,&quot;2021-07-02 23:59:59&quot;],&quot;startSAPDate|endSAPDate&quot;:[],&quot;startReportDate&quot;:&quot;2021-04-03 00:00:00&quot;,&quot;endReportDate&quot;:&quot;2021-07-02 23:59:59&quot;,&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsret/ttRetreplacebuss/getPageList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索(最近三个月数据0条)</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查询置换在库车辆检查项目" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;dateRefer&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsret/ttRetcpovideovincheckdtl/getRetCPOVideoVINCheckDtlPage631List</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="认证车辆查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;busType&quot;:&quot;aum0601&quot;,&quot;carVIN&quot;:&quot;LFV2A5BS6J4657616&quot;,&quot;dateReferList&quot;:[],&quot;splCdyCar&quot;:&quot;N&quot;,&quot;datePASSList&quot;:[],&quot;outBillDateClaimList&quot;:[],&quot;outBillDateList&quot;:[],&quot;cancelDatePASSList&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappdocAudti/getAppDocAuditList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="认证车辆查询-车辆明细" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;iD&quot;:&quot;C7849028-AF33-45AE-E053-7F3FE20A7002&quot;,&quot;busType&quot;:&quot;aum0601&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappdocAudti/getAppDocAuditById</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="认证车辆查询-延保明细" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;iD&quot;:&quot;C7849012-FAD9-4594-E053-7F3FE20A142F&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappextperioddoc/getAumappExtInfoById</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护二手车质量担保费-保存" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;policyDateRange&quot;:[&quot;${__RandomDate(yyyy-MM-dd,2000-10-01,2888-10-30,,)}&quot;,&quot;${__RandomDate(yyyy-MM-dd,2889-01-01,3888-10-30,,)}&quot;],&quot;appType&quot;:&quot;01&quot;,&quot;displayType&quot;:&quot;01&quot;,&quot;authType&quot;:&quot;&quot;,&quot;carSeries&quot;:&quot;&quot;,&quot;carTypeCode&quot;:&quot;&quot;,&quot;carSeriesName&quot;:&quot;&quot;,&quot;carTypeName&quot;:&quot;&quot;,&quot;newEngiFlag&quot;:&quot;N&quot;,&quot;policyAmt&quot;:1.2,&quot;remark&quot;:&quot;压测&quot;,&quot;stopFlag&quot;:&quot;N&quot;,&quot;stopByName&quot;:&quot;&quot;,&quot;createByName&quot;:&quot;&quot;,&quot;stopDate&quot;:&quot;&quot;,&quot;createOn&quot;:&quot;&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/tmAumappdocamt/qa-amount/insert</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/policyAmt.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">policyAmt</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护二手车质量担保费" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;policyBeginDate&quot;:[],&quot;policyEndDate&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/tmAumappdocamt/qa-amount/params</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护认证支持金额-保存" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;policyDateRange&quot;:[&quot;${__RandomDate(yyyy-MM-dd,2000-10-01,2888-10-30,,)}&quot;,&quot;${__RandomDate(yyyy-MM-dd,2889-01-01,3888-10-30,,)}&quot;],&quot;carSaleRange&quot;:[null,null],&quot;carSaleRateRange&quot;:[null,null],&quot;iD&quot;:&quot;&quot;,&quot;recordVersion&quot;:&quot;&quot;,&quot;aDSupportType&quot;:&quot;01&quot;,&quot;displayType&quot;:&quot;&quot;,&quot;authType&quot;:&quot;&quot;,&quot;newDealerFlag&quot;:&quot;&quot;,&quot;carSeries&quot;:&quot;&quot;,&quot;carTypeCode&quot;:&quot;&quot;,&quot;carSeriesName&quot;:&quot;&quot;,&quot;carTypeName&quot;:&quot;&quot;,&quot;aUMCarSaleBegin&quot;:&quot;&quot;,&quot;aUMCarSaleEnd&quot;:&quot;&quot;,&quot;aUMCarSaleRateBegin&quot;:&quot;&quot;,&quot;aUMCarSaleRateEnd&quot;:&quot;&quot;,&quot;venderCarSaleTarget&quot;:&quot;&quot;,&quot;policyAmt&quot;:1,&quot;remark&quot;:&quot;压测数据&quot;,&quot;stopFlag&quot;:&quot;N&quot;,&quot;stopByName&quot;:&quot;&quot;,&quot;createByName&quot;:&quot;&quot;,&quot;stopDate&quot;:&quot;&quot;,&quot;createOn&quot;:&quot;&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/tmAumadsupportamt/saveSupportAmount</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/policyAmt.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">policyAmt</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="费用核算-搜索" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;aEPTotalState&quot;:&quot;10&quot;,&quot;invoiceDateIn&quot;:[],&quot;saleOutDateIn&quot;:[&quot;2021-04-03 00:00:00&quot;,&quot;2021-07-02 23:59:59&quot;],&quot;auditDateIn&quot;:[]}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/AUM506/Search</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索（最近3个月）</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="费用核算-生成核算记录-保存" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;aUM506&quot;:[{&quot;aEPTotalState&quot;:&quot;10&quot;,&quot;aUMAmt&quot;:3999,&quot;aUMAmtC&quot;:3999,&quot;aUMAmtD&quot;:3999,&quot;aUMAmtV&quot;:3999,&quot;aUMCount&quot;:1,&quot;appDocID&quot;:&quot;C7849028-AC86-45AE-E053-7F3FE20A7002&quot;,&quot;appNO&quot;:&quot;758120207252105146436&quot;,&quot;appType&quot;:&quot;01&quot;,&quot;auditDate&quot;:&quot;2021-06-01 13:37:48&quot;,&quot;auditDateBegin&quot;:null,&quot;auditDateEnd&quot;:null,&quot;auditDateIn&quot;:null,&quot;batchAmt&quot;:&quot;${batchAmt}&quot;,&quot;batchDes&quot;:null,&quot;bigArea&quot;:&quot;RSD2&quot;,&quot;bigAreaDes&quot;:&quot;华北区&quot;,&quot;buyDate&quot;:&quot;2021-05-24 16:59:06&quot;,&quot;cANO&quot;:null,&quot;carSeriesCode&quot;:&quot;0B&quot;,&quot;carSeriesName&quot;:&quot;迈腾B8L&quot;,&quot;carVIN&quot;:&quot;LFV3A23C0J3053415&quot;,&quot;currentPage&quot;:null,&quot;dataFieldName1&quot;:null,&quot;dataFieldName2&quot;:null,&quot;dateRefer&quot;:&quot;2021-05-24 17:08:36&quot;,&quot;dateSC&quot;:&quot;2021-05-25 15:20:22&quot;,&quot;dealer&quot;:&quot;S712004&quot;,&quot;dealerId&quot;:&quot;75812020-0000-0000-0000-000000000000&quot;,&quot;displayType&quot;:&quot;01&quot;,&quot;evaluateNO&quot;:&quot;SG20210524001&quot;,&quot;id&quot;:&quot;&quot;,&quot;invoiceDate&quot;:&quot;2021-05-27 00:00:00&quot;,&quot;invoiceDateBegin&quot;:null,&quot;invoiceDateEnd&quot;:null,&quot;invoiceDateIn&quot;:null,&quot;mRDate&quot;:&quot;2021-05-28 10:17:00&quot;,&quot;mainSendDate&quot;:null,&quot;mainSendFlag&quot;:null,&quot;name&quot;:&quot;天津浩众汽车贸易服务有限公司&quot;,&quot;pageSize&quot;:null,&quot;record_version&quot;:&quot;0&quot;,&quot;saleOutDate&quot;:&quot;2021-05-28 09:53:57&quot;,&quot;saleOutDateBegin&quot;:null,&quot;saleOutDateEnd&quot;:null,&quot;saleOutDateIn&quot;:null,&quot;smallArea&quot;:&quot;203&quot;,&quot;smallAreaDes&quot;:&quot;天津小区&quot;,&quot;timesD&quot;:null,&quot;venderFlag&quot;:&quot;N&quot;,&quot;ySAUMAmtD&quot;:3999,&quot;ySAUMAmtV&quot;:3999,&quot;index&quot;:0,&quot;pageIndex&quot;:0}],&quot;aUMAmt&quot;:3999,&quot;batchAmt&quot;:&quot;${batchAmt}&quot;,&quot;batchDes&quot;:&quot;压测${batchAmt}&quot;,&quot;cANO&quot;:&quot;&quot;,&quot;createBy&quot;:&quot;27caf7f1-e44e-11eb-b47f-000af7d06460&quot;,&quot;createOn&quot;:&quot;2021-07-23 15:41:11&quot;,&quot;dealerCount&quot;:1,&quot;isAcct&quot;:&quot;01&quot;,&quot;times&quot;:1,&quot;vPersonName&quot;:&quot;胡波&quot;,&quot;ySAUMAmt&quot;:3999,&quot;ySAUMAmtD&quot;:&quot;&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/AUM506/Save</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/batchAmt.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">batchAmt</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="费用核算-生成核算记录-保存-备份" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;aUM506&quot;:[{&quot;aEPTotalState&quot;:&quot;10&quot;,&quot;aUMAmt&quot;:3999,&quot;aUMAmtC&quot;:3999,&quot;aUMAmtD&quot;:3999,&quot;aUMAmtV&quot;:3999,&quot;aUMCount&quot;:1,&quot;appDocID&quot;:&quot;C7849028-AC86-45AE-E053-7F3FE20A7002&quot;,&quot;appNO&quot;:&quot;758120207252105146436&quot;,&quot;appType&quot;:&quot;01&quot;,&quot;auditDate&quot;:&quot;2021-06-01 13:37:48&quot;,&quot;auditDateBegin&quot;:null,&quot;auditDateEnd&quot;:null,&quot;auditDateIn&quot;:null,&quot;batchAmt&quot;:&quot;${batchAmt}&quot;,&quot;batchDes&quot;:null,&quot;bigArea&quot;:&quot;RSD2&quot;,&quot;bigAreaDes&quot;:&quot;华北区&quot;,&quot;buyDate&quot;:&quot;2021-05-24 16:59:06&quot;,&quot;cANO&quot;:null,&quot;carSeriesCode&quot;:&quot;0B&quot;,&quot;carSeriesName&quot;:&quot;迈腾B8L&quot;,&quot;carVIN&quot;:&quot;LFV3A23C0J3053415&quot;,&quot;currentPage&quot;:null,&quot;dataFieldName1&quot;:null,&quot;dataFieldName2&quot;:null,&quot;dateRefer&quot;:&quot;2021-05-24 17:08:36&quot;,&quot;dateSC&quot;:&quot;2021-05-25 15:20:22&quot;,&quot;dealer&quot;:&quot;S712004&quot;,&quot;dealerId&quot;:&quot;75812020-0000-0000-0000-000000000000&quot;,&quot;displayType&quot;:&quot;01&quot;,&quot;evaluateNO&quot;:&quot;SG20210524001&quot;,&quot;id&quot;:&quot;C7849028-AC86-45AE-E053-7F3FE20A7002&quot;,&quot;invoiceDate&quot;:&quot;2021-05-27 00:00:00&quot;,&quot;invoiceDateBegin&quot;:null,&quot;invoiceDateEnd&quot;:null,&quot;invoiceDateIn&quot;:null,&quot;mRDate&quot;:&quot;2021-05-28 10:17:00&quot;,&quot;mainSendDate&quot;:null,&quot;mainSendFlag&quot;:null,&quot;name&quot;:&quot;天津浩众汽车贸易服务有限公司&quot;,&quot;pageSize&quot;:null,&quot;record_version&quot;:&quot;0&quot;,&quot;saleOutDate&quot;:&quot;2021-05-28 09:53:57&quot;,&quot;saleOutDateBegin&quot;:null,&quot;saleOutDateEnd&quot;:null,&quot;saleOutDateIn&quot;:null,&quot;smallArea&quot;:&quot;203&quot;,&quot;smallAreaDes&quot;:&quot;天津小区&quot;,&quot;timesD&quot;:null,&quot;venderFlag&quot;:&quot;N&quot;,&quot;ySAUMAmtD&quot;:3999,&quot;ySAUMAmtV&quot;:3999,&quot;index&quot;:0,&quot;pageIndex&quot;:0}],&quot;aUMAmt&quot;:3999,&quot;batchAmt&quot;:&quot;${batchAmt}&quot;,&quot;batchDes&quot;:&quot;压测${batchAmt}&quot;,&quot;cANO&quot;:&quot;&quot;,&quot;createBy&quot;:&quot;27caf7f1-e44e-11eb-b47f-000af7d06460&quot;,&quot;createOn&quot;:&quot;2021-07-23 15:41:11&quot;,&quot;dealerCount&quot;:1,&quot;isAcct&quot;:&quot;01&quot;,&quot;times&quot;:1,&quot;vPersonName&quot;:&quot;胡波&quot;,&quot;ySAUMAmt&quot;:3999,&quot;ySAUMAmtD&quot;:&quot;&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/AUM506/Save</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/batchAmt.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">batchAmt</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DWA运营标准检查查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;planBeginDateStart|planBeginDateEnd&quot;:[],&quot;planEndDateStart|planEndDateEnd&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsspa/ttSpaopeevaplan/getCalculateTableList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="厂家车源大厅" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;pageFrom&quot;:&quot;fawvw&quot;,&quot;vIN&quot;:&quot;&quot;,&quot;atnState&quot;:&quot;&quot;,&quot;nxslc&quot;:&quot;&quot;,&quot;evaRank&quot;:&quot;&quot;,&quot;province&quot;:&quot;&quot;,&quot;city&quot;:&quot;&quot;,&quot;levelPrice&quot;:&quot;&quot;,&quot;carAge&quot;:&quot;&quot;,&quot;carBrandNO&quot;:&quot;&quot;,&quot;csyxz&quot;:&quot;&quot;,&quot;color&quot;:&quot;&quot;,&quot;cbsxs&quot;:&quot;&quot;,&quot;cbfs&quot;:&quot;&quot;,&quot;atnSeqName&quot;:&quot;&quot;,&quot;vehiclePosition&quot;:&quot;&quot;,&quot;atnCarSource&quot;:&quot;&quot;,&quot;carSeriesCode&quot;:&quot;&quot;,&quot;isPlate&quot;:&quot;&quot;,&quot;outCarSource&quot;:&quot;&quot;,&quot;control&quot;:&quot;AtnDateBegin&quot;,&quot;sort&quot;:&quot;up&quot;,&quot;pageNum&quot;:1}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsauc/AUC0512/Search</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="年度领用计划查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;busType&quot;:&quot;lyc0601&quot;,&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmslyc/ttLycyplapl/selectTtLycyplaplDetailPageList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="领用车辆查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;yAplDateList&quot;:[],&quot;riskFlag&quot;:&quot;N&quot;,&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmslyc/ttLycyaplclddetail/selectLycyaplclddetailAndAucInfo</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="车源营销线索查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;dJSJ&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsbnf/bnf0601/getVehicleList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="二手车收购车辆查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;yesOrNo&quot;:&quot;N&quot;,&quot;buyDateList&quot;:[],&quot;invoiceDateList&quot;:[],&quot;saleState&quot;:&quot;01&quot;,&quot;outBillDateList&quot;:[],&quot;authFlag&quot;:&quot;N&quot;,&quot;vIN&quot;:&quot;LBEXDAEB36X430850&quot;,&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmssta/StaUsedcar/Sta619</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索(最近3个月)</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="经销商置换过程数据" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;dealDateList&quot;:[&quot;2021-04-03&quot;,&quot;2021-07-02&quot;],&quot;completeFlag&quot;:&quot;N&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmssta/dealerRetData/searchSTA646</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索（最近3个月）</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="综合情况查询" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;dealer&quot;:&quot;S733057&quot;,&quot;dealerName&quot;:&quot;金华宝通汽车有限公司&quot;,&quot;bigAreaCode&quot;:&quot;RSD4&quot;,&quot;name&quot;:&quot;华东区&quot;,&quot;buyDateList&quot;:[],&quot;smallAreaCode&quot;:&quot;411&quot;,&quot;smallName&quot;:&quot;浙中小区&quot;,&quot;outInvoiceDateList&quot;:[],&quot;authFlag&quot;:&quot;N&quot;,&quot;outBillDateList&quot;:[],&quot;saleFlag&quot;:&quot;N&quot;,&quot;vIN&quot;:&quot;LBEXDAEB36X430850&quot;,&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmssta/StaUsedcar/Sta629</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="————————响应断言" enabled="true">
+          <collectionProp name="Asserion.test_strings">
+            <stringProp name="723337899">&quot;code&quot;:200</stringProp>
+          </collectionProp>
+          <stringProp name="Assertion.custom_message"></stringProp>
+          <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+          <boolProp name="Assertion.assume_success">false</boolProp>
+          <intProp name="Assertion.test_type">16</intProp>
+        </ResponseAssertion>
+        <hashTree/>
+        <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="————————置换接口响应断言" enabled="false">
+          <collectionProp name="Asserion.test_strings">
+            <stringProp name="-1762222246">&quot;messageType&quot;:&quot;S&quot;</stringProp>
+          </collectionProp>
+          <stringProp name="Assertion.custom_message"></stringProp>
+          <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+          <boolProp name="Assertion.assume_success">false</boolProp>
+          <intProp name="Assertion.test_type">16</intProp>
+        </ResponseAssertion>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护认证支持金额" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;policyBeginDate&quot;:[],&quot;policyEndDate&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/tmAumadsupportamt/getSupportAmountList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="认证申请单审核（二手车部）-搜索" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;busType&quot;:&quot;aum0502&quot;,&quot;appState&quot;:&quot;00&quot;,&quot;dateReferList&quot;:[],&quot;splCdyCar&quot;:&quot;N&quot;,&quot;datePASSList&quot;:[],&quot;outBillDateClaimList&quot;:[],&quot;outBillDateList&quot;:[],&quot;cancelDatePASSList&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappdocAudti/getAppDocAuditList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="认证申请单审核（二手车部）-认证明细" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;iD&quot;:&quot;C7849028-AC6D-45AE-E053-7F3FE20A7002&quot;,&quot;busType&quot;:&quot;aum0502&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappdocAudti/getAppDocAuditById</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="延保申请单审核-搜索" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;aEPTotalState&quot;:&quot;00&quot;,&quot;mRDateList&quot;:[],&quot;saleOutDateList&quot;:[],&quot;splCdyCar&quot;:&quot;N&quot;,&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappextperioddoc/getAumappExtAuditList</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="延保申请单审核-审批明细" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;iD&quot;:&quot;C7849012-F421-4594-E053-7F3FE20A142F&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappextperioddoc/getAumappExtInfoById</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="延保申请单审核-审核" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">[{&quot;iD&quot;:&quot;${id}&quot;,&quot;recordVersion&quot;:0}]</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsaum/ttAumappextperioddoc/auditAumappExt</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存 SELECT t.iD,t.record_version FROM tt_aumappextperioddoc t WHERE t.aEPTotalState = &apos;00&apos; and t.record_version=&apos;0&apos;</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/id.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">id</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护竞价车辆-搜索" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;createDate&quot;:[],&quot;currentPage&quot;:1,&quot;pageSize&quot;:20}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsauc/AUC0502/Search</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护竞价车辆-保存" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;cclzt&quot;:&quot;01&quot;,&quot;issType&quot;:&quot;02&quot;,&quot;floorPrice&quot;:&quot;1&quot;,&quot;cpgdh&quot;:&quot;&quot;,&quot;isCreate&quot;:&quot;&quot;,&quot;atnCarSource&quot;:&quot;01&quot;,&quot;vIN&quot;:&quot;61564561231&quot;,&quot;vvvvIN&quot;:&quot;&quot;,&quot;carBrandNO&quot;:&quot;&quot;,&quot;carBrandName&quot;:&quot;&quot;,&quot;carSeriesCode&quot;:&quot;&quot;,&quot;carSeriesName&quot;:&quot;&quot;,&quot;ccxdm&quot;:&quot;&quot;,&quot;carTypeName&quot;:&quot;&quot;,&quot;color&quot;:&quot;&quot;,&quot;colorName&quot;:&quot;&quot;,&quot;cbsxs&quot;:&quot;01&quot;,&quot;exhaustCapacity&quot;:&quot;&quot;,&quot;pfsp&quot;:&quot;&quot;,&quot;engineNO&quot;:&quot;&quot;,&quot;manuYear&quot;:&quot;&quot;,&quot;provinceCode&quot;:&quot;&quot;,&quot;provinceName&quot;:&quot;&quot;,&quot;cityCode&quot;:&quot;&quot;,&quot;cityName&quot;:&quot;&quot;,&quot;vehiclePosition&quot;:&quot;&quot;,&quot;nxslc&quot;:&quot;&quot;,&quot;evaRank&quot;:&quot;&quot;,&quot;threadID&quot;:&quot;&quot;,&quot;isNewCar&quot;:&quot;&quot;,&quot;licensePlate&quot;:&quot;&quot;,&quot;csyxz&quot;:&quot;&quot;,&quot;dateRegister&quot;:&quot;&quot;,&quot;dbxjzrq&quot;:&quot;&quot;,&quot;dsybxdqsj&quot;:&quot;&quot;,&quot;bussinessRisksPrice&quot;:&quot;&quot;,&quot;lrzzt&quot;:&quot;&quot;,&quot;cfzh&quot;:&quot;&quot;,&quot;vAsseBillno&quot;:&quot;&quot;,&quot;nCarProductCode&quot;:&quot;&quot;,&quot;newCarColor&quot;:&quot;&quot;,&quot;newCarColorName&quot;:&quot;&quot;,&quot;cP9Date&quot;:&quot;&quot;,&quot;storageName&quot;:&quot;&quot;,&quot;isExt&quot;:&quot;&quot;,&quot;materielCode&quot;:&quot;&quot;,&quot;materielName&quot;:&quot;&quot;,&quot;vehiclePR&quot;:&quot;&quot;,&quot;STDPrice&quot;:&quot;&quot;,&quot;SAPDate&quot;:&quot;&quot;,&quot;franchiseParts&quot;:&quot;&quot;,&quot;MSRPMessage&quot;:&quot;&quot;,&quot;atnPeople&quot;:&quot;&quot;,&quot;atnPeopleName&quot;:&quot;&quot;,&quot;makPrice&quot;:&quot;&quot;,&quot;pricePeople&quot;:&quot;&quot;,&quot;pricePeopleName&quot;:&quot;&quot;,&quot;limitPrice&quot;:&quot;&quot;,&quot;cKFloorPrice&quot;:&quot;&quot;,&quot;createDate&quot;:&quot;&quot;,&quot;sBDQRQ&quot;:&quot;&quot;,&quot;nJDQRQ&quot;:&quot;&quot;,&quot;sYXPZ&quot;:&quot;&quot;,&quot;isTax&quot;:&quot;&quot;,&quot;cJSZD&quot;:&quot;&quot;,&quot;rePairItem&quot;:&quot;&quot;,&quot;transferAmt&quot;:&quot;&quot;,&quot;zJF&quot;:&quot;&quot;,&quot;bLGHTS&quot;:&quot;&quot;,&quot;toFileDays&quot;:&quot;&quot;,&quot;gHBLDZ&quot;:&quot;&quot;,&quot;jXSGHZXR&quot;:&quot;&quot;,&quot;jXSGHZXRDH&quot;:&quot;&quot;,&quot;cLSXSM&quot;:&quot;&quot;,&quot;gHXGSM&quot;:&quot;&quot;,&quot;jJBZJJE&quot;:&quot;&quot;,&quot;jJBZJSM&quot;:&quot;&quot;,&quot;jYGCJFSSM&quot;:&quot;&quot;,&quot;fYXGSM&quot;:&quot;&quot;,&quot;bZSM&quot;:&quot;&quot;,&quot;aucvehicleacceList&quot;:[{&quot;tit&quot;:&quot;左前45度&quot;,&quot;cfjlx&quot;:&quot;F01&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;正面&quot;,&quot;cfjlx&quot;:&quot;F02&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;后面&quot;,&quot;cfjlx&quot;:&quot;F03&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;右后45度&quot;,&quot;cfjlx&quot;:&quot;F04&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;右正侧面&quot;,&quot;cfjlx&quot;:&quot;F05&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;左正侧面&quot;,&quot;cfjlx&quot;:&quot;F06&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;发动机仓全景&quot;,&quot;cfjlx&quot;:&quot;F07&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;中控台全景&quot;,&quot;cfjlx&quot;:&quot;F08&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;仪表盘（启动状态）&quot;,&quot;cfjlx&quot;:&quot;F09&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;前排座椅内饰&quot;,&quot;cfjlx&quot;:&quot;F10&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;后排座椅内饰&quot;,&quot;cfjlx&quot;:&quot;F11&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null},{&quot;tit&quot;:&quot;后备箱&quot;,&quot;cfjlx&quot;:&quot;F12&quot;,&quot;bytes&quot;:null,&quot;ckzm&quot;:null}]}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsauc/AUC0502/Save</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护竞价-搜索" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;currentPage&quot;:1,&quot;pageSize&quot;:20,&quot;atnDate&quot;:[&quot;2021-07-01 00:00:00&quot;,&quot;2021-07-31 23:59:59&quot;]}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsauc/AUC0504/Search</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="维护竞价-保存" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;aUC0502TableVO&quot;:[{&quot;atnCarSource&quot;:&quot;01&quot;,&quot;atnPeople&quot;:&quot;27caf7f1-e44e-11eb-b47f-000af7d06460&quot;,&quot;atnPeopleName&quot;:&quot;Hu.Bo&quot;,&quot;atnUserType&quot;:null,&quot;atnVehicleNum&quot;:1,&quot;aucvehicleacceList&quot;:null,&quot;bLGHTS&quot;:null,&quot;bZSM&quot;:null,&quot;bussinessRisksPrice&quot;:null,&quot;buyDate&quot;:null,&quot;cJKLY&quot;:null,&quot;cJSZD&quot;:null,&quot;cKFloorPrice&quot;:null,&quot;cLSXSM&quot;:null,&quot;cP9Date&quot;:null,&quot;carAge&quot;:null,&quot;carBrandNO&quot;:&quot;&quot;,&quot;carBrandName&quot;:&quot;&quot;,&quot;carSeriesCode&quot;:&quot;&quot;,&quot;carSeriesName&quot;:&quot;&quot;,&quot;carTypeName&quot;:&quot;&quot;,&quot;cbsxs&quot;:&quot;01&quot;,&quot;cclzt&quot;:&quot;01&quot;,&quot;ccxdm&quot;:&quot;&quot;,&quot;cfzh&quot;:null,&quot;checkState&quot;:&quot;01&quot;,&quot;cityCode&quot;:&quot;&quot;,&quot;cityName&quot;:null,&quot;color&quot;:null,&quot;colorName&quot;:null,&quot;cpgdh&quot;:&quot;2021072484594&quot;,&quot;createDate&quot;:&quot;&quot;,&quot;csyxz&quot;:&quot;&quot;,&quot;dataSource&quot;:null,&quot;dateRegister&quot;:&quot;&quot;,&quot;dbxjzrq&quot;:null,&quot;dsybxdqsj&quot;:null,&quot;dtlID&quot;:null,&quot;engineNO&quot;:null,&quot;evaRank&quot;:&quot;&quot;,&quot;exhaustCapacity&quot;:&quot;&quot;,&quot;fYXGSM&quot;:null,&quot;floorPrice&quot;:&quot;1&quot;,&quot;franchiseParts&quot;:null,&quot;gHBLDZ&quot;:null,&quot;gHXGSM&quot;:null,&quot;id&quot;:&quot;bb75e099-5ee7-4a90-aad7-3ee28aad8658&quot;,&quot;isCreate&quot;:null,&quot;isExt&quot;:null,&quot;isNewCar&quot;:null,&quot;isTax&quot;:null,&quot;issType&quot;:null,&quot;jJBZJJE&quot;:null,&quot;jJBZJSM&quot;:null,&quot;jXSGHZXR&quot;:null,&quot;jXSGHZXRDH&quot;:null,&quot;jYGCJFSSM&quot;:null,&quot;lAplDtlNo&quot;:null,&quot;lAplNo&quot;:null,&quot;licensePlate&quot;:&quot;&quot;,&quot;limitPrice&quot;:null,&quot;lrzzt&quot;:null,&quot;mSRPFlag&quot;:null,&quot;mSRPMessage&quot;:null,&quot;makPrice&quot;:null,&quot;manuYear&quot;:null,&quot;materielCode&quot;:null,&quot;materielName&quot;:null,&quot;nCarProductCode&quot;:&quot;&quot;,&quot;nCarProductCodeName&quot;:null,&quot;nJDQRQ&quot;:null,&quot;newCarColor&quot;:null,&quot;newCarColorName&quot;:null,&quot;nxslc&quot;:&quot;&quot;,&quot;oFacDate&quot;:null,&quot;pageFrom&quot;:null,&quot;pfsp&quot;:null,&quot;pricePeople&quot;:&quot;27caf7f1-e44e-11eb-b47f-000af7d06460&quot;,&quot;pricePeopleName&quot;:&quot;Hu.Bo&quot;,&quot;provinceCode&quot;:&quot;&quot;,&quot;provinceName&quot;:null,&quot;rePairItem&quot;:&quot;&quot;,&quot;sAPDate&quot;:null,&quot;sBDQRQ&quot;:null,&quot;sTDPrice&quot;:null,&quot;sYXPZ&quot;:null,&quot;storageName&quot;:null,&quot;submitFlag&quot;:null,&quot;threadID&quot;:null,&quot;toFileDays&quot;:null,&quot;transferAmt&quot;:null,&quot;vAsseBillno&quot;:null,&quot;vIN&quot;:&quot;61564561231&quot;,&quot;vehiclePR&quot;:null,&quot;vehiclePosition&quot;:&quot;&quot;,&quot;zJF&quot;:null,&quot;index&quot;:0,&quot;pageIndex&quot;:0,&quot;cyssm&quot;:&quot;&quot;}],&quot;atnClass&quot;:&quot;01&quot;,&quot;atnAuditState&quot;:&quot;&quot;,&quot;atnAuditDate&quot;:&quot;&quot;,&quot;atnAuditPersonName&quot;:&quot;&quot;,&quot;atnRefuseReason&quot;:&quot;&quot;,&quot;atnID&quot;:&quot;&quot;,&quot;atnTitle&quot;:&quot;压测竞价&quot;,&quot;atnSeqID&quot;:&quot;&quot;,&quot;atnSeqName&quot;:&quot;&quot;,&quot;templateID&quot;:&quot;QW&quot;,&quot;atnCarSource&quot;:&quot;01&quot;,&quot;atnTypeCode&quot;:&quot;MFPM&quot;,&quot;atnOrder&quot;:&quot;&quot;,&quot;atnTypeDes&quot;:&quot;密封竞价&quot;,&quot;atnDateBegin&quot;:&quot;2021-07-01 00:00:00&quot;,&quot;atnClassify&quot;:&quot;&quot;,&quot;atnConf&quot;:&quot;01&quot;,&quot;atnDateEnd&quot;:&quot;2021-07-02 00:00:00&quot;,&quot;sCarTime&quot;:&quot;&quot;,&quot;atnPriceConf&quot;:&quot;01&quot;,&quot;levelPrice&quot;:1,&quot;extendTime&quot;:&quot;&quot;,&quot;makPriceSum&quot;:&quot;&quot;,&quot;extentPrice&quot;:100,&quot;evaPrice&quot;:&quot;&quot;,&quot;homeAddress&quot;:&quot;&quot;,&quot;ensurePrice&quot;:&quot;&quot;,&quot;reserPrice&quot;:&quot;&quot;,&quot;carAddress&quot;:&quot;&quot;,&quot;limitPriceSum&quot;:&quot;&quot;,&quot;commission&quot;:&quot;&quot;,&quot;atnAmount&quot;:&quot;&quot;,&quot;aUC0502TableVOAdd&quot;:[{&quot;atnCarSource&quot;:&quot;01&quot;,&quot;atnPeople&quot;:&quot;27caf7f1-e44e-11eb-b47f-000af7d06460&quot;,&quot;atnPeopleName&quot;:&quot;Hu.Bo&quot;,&quot;atnUserType&quot;:null,&quot;atnVehicleNum&quot;:1,&quot;aucvehicleacceList&quot;:null,&quot;bLGHTS&quot;:null,&quot;bZSM&quot;:null,&quot;bussinessRisksPrice&quot;:null,&quot;buyDate&quot;:null,&quot;cJKLY&quot;:null,&quot;cJSZD&quot;:null,&quot;cKFloorPrice&quot;:null,&quot;cLSXSM&quot;:null,&quot;cP9Date&quot;:null,&quot;carAge&quot;:null,&quot;carBrandNO&quot;:&quot;&quot;,&quot;carBrandName&quot;:&quot;&quot;,&quot;carSeriesCode&quot;:&quot;&quot;,&quot;carSeriesName&quot;:&quot;&quot;,&quot;carTypeName&quot;:&quot;&quot;,&quot;cbsxs&quot;:&quot;01&quot;,&quot;cclzt&quot;:&quot;01&quot;,&quot;ccxdm&quot;:&quot;&quot;,&quot;cfzh&quot;:null,&quot;checkState&quot;:&quot;01&quot;,&quot;cityCode&quot;:&quot;&quot;,&quot;cityName&quot;:null,&quot;color&quot;:null,&quot;colorName&quot;:null,&quot;cpgdh&quot;:&quot;2021072484594&quot;,&quot;createDate&quot;:&quot;&quot;,&quot;csyxz&quot;:&quot;&quot;,&quot;dataSource&quot;:null,&quot;dateRegister&quot;:&quot;&quot;,&quot;dbxjzrq&quot;:null,&quot;dsybxdqsj&quot;:null,&quot;dtlID&quot;:null,&quot;engineNO&quot;:null,&quot;evaRank&quot;:&quot;&quot;,&quot;exhaustCapacity&quot;:&quot;&quot;,&quot;fYXGSM&quot;:null,&quot;floorPrice&quot;:&quot;1&quot;,&quot;franchiseParts&quot;:null,&quot;gHBLDZ&quot;:null,&quot;gHXGSM&quot;:null,&quot;id&quot;:&quot;bb75e099-5ee7-4a90-aad7-3ee28aad8658&quot;,&quot;isCreate&quot;:null,&quot;isExt&quot;:null,&quot;isNewCar&quot;:null,&quot;isTax&quot;:null,&quot;issType&quot;:null,&quot;jJBZJJE&quot;:null,&quot;jJBZJSM&quot;:null,&quot;jXSGHZXR&quot;:null,&quot;jXSGHZXRDH&quot;:null,&quot;jYGCJFSSM&quot;:null,&quot;lAplDtlNo&quot;:null,&quot;lAplNo&quot;:null,&quot;licensePlate&quot;:&quot;&quot;,&quot;limitPrice&quot;:null,&quot;lrzzt&quot;:null,&quot;mSRPFlag&quot;:null,&quot;mSRPMessage&quot;:null,&quot;makPrice&quot;:null,&quot;manuYear&quot;:null,&quot;materielCode&quot;:null,&quot;materielName&quot;:null,&quot;nCarProductCode&quot;:&quot;&quot;,&quot;nCarProductCodeName&quot;:null,&quot;nJDQRQ&quot;:null,&quot;newCarColor&quot;:null,&quot;newCarColorName&quot;:null,&quot;nxslc&quot;:&quot;&quot;,&quot;oFacDate&quot;:null,&quot;pageFrom&quot;:null,&quot;pfsp&quot;:null,&quot;pricePeople&quot;:&quot;27caf7f1-e44e-11eb-b47f-000af7d06460&quot;,&quot;pricePeopleName&quot;:&quot;Hu.Bo&quot;,&quot;provinceCode&quot;:&quot;&quot;,&quot;provinceName&quot;:null,&quot;rePairItem&quot;:&quot;&quot;,&quot;sAPDate&quot;:null,&quot;sBDQRQ&quot;:null,&quot;sTDPrice&quot;:null,&quot;sYXPZ&quot;:null,&quot;storageName&quot;:null,&quot;submitFlag&quot;:null,&quot;threadID&quot;:null,&quot;toFileDays&quot;:null,&quot;transferAmt&quot;:null,&quot;vAsseBillno&quot;:null,&quot;vIN&quot;:&quot;61564561231&quot;,&quot;vehiclePR&quot;:null,&quot;vehiclePosition&quot;:&quot;&quot;,&quot;zJF&quot;:null,&quot;index&quot;:0,&quot;pageIndex&quot;:0,&quot;cyssm&quot;:&quot;&quot;}],&quot;aUC0502TableVODelete&quot;:[]}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsauc/AUC0504/Save</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">保存</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="查看竞价" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;id&quot;:&quot;ccd38b7d-89ae-4522-93b2-7825988b48b1&quot;,&quot;atnid&quot;:&quot;PM2021081200000001&quot;,&quot;bidPrice&quot;:&quot;10000&quot;,&quot;pageFrom&quot;:&quot;fawvw&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsatn/AUC0512/Time</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="确认出价" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;id&quot;:&quot;ce6d63e0-7f3e-42b9-a328-45b998db9bb2&quot;,&quot;atnid&quot;:&quot;PM2021102700000001&quot;,&quot;bidPrice&quot;:&quot;${bidPrice}&quot;,&quot;pageFrom&quot;:&quot;fawvw&quot;}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/ucmsauc/AUC0512/BidPrice</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV 数据文件设置" enabled="true">
+            <stringProp name="filename">D:/压力测试/大众MEP-UCMS/bidPrice.txt</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="variableNames">bidPrice</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="-------" enabled="false">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="-------" enabled="false">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="-------" enabled="false">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="-------" enabled="false">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">搜索</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

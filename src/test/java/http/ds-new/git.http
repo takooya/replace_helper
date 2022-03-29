@@ -1,0 +1,65 @@
+POST http://localhost:609/git/projectid
+Content-Type: application/json
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+
+{
+  "path": "spring-jck/tds-base-sys"
+}
+
+> {% client.global.set("projectid", response.body.data.id); %}
+
+###
+POST http://localhost:609/git/tree
+Content-Type: application/json
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+projectid: {{projectid}}
+
+{
+}
+
+###
+POST http://localhost:609/git/files
+Content-Type: application/json
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+projectid: {{projectid}}
+
+{
+  "path": "src/main/java"
+}
+
+###
+POST http://localhost:609/git/tree
+Content-Type: application/json
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+projectid: {{projectid}}
+
+{
+}
+
+###
+POST http://localhost:609/git/loop
+Content-Type: application/json
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+projectid: {{projectid}}
+
+{
+  "branch": "master"
+}
+
+###
+POST http://localhost:609/git/loopByCondition
+Content-Type: application/json
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+projectid: {{projectid}}
+
+{
+  "branch": "dev"
+}
+
+###

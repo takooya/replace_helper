@@ -1,0 +1,131 @@
+POST http://localhost:609/decompile/exec
+Content-Type: application/json
+
+{
+  "source": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\jad_decompile\\itms_cinda"
+}
+
+### 反编译文件Format fileTypeFilters
+POST http://localhost:609/decompile/old2new
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "filtersType": "properties,xml",
+  "regExpMap": {
+    "String ([a-zA-Z]+)\\[\\]": "String[] $1",
+    "abcedfg": "abcedfg"
+  }
+}
+
+### 删除已经编译的class文件
+POST http://localhost:609/decompile/deleteFiles
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes",
+  "regExpMap": {
+    "abcedfg": "abcedfg"
+  }
+}
+
+### 删除重复的文件
+POST http://localhost:609/decompile/delRepeatFile
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes",
+  "regExpMap": {
+    "abcedfg": "abcedfg"
+  }
+}
+
+### 多行table注解变一行
+POST http://localhost:609/decompile/multiLine2single
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcePath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "sourceRegExp": {
+    "1": "@Table\\(",
+    "2": "name = \"(\\S+)\"",
+    "3": "\\)"
+  },
+  "targetRegExp": "@Table(name = \"$1\")"
+}
+
+### 多行RequestMapping注解变一行
+POST http://localhost:609/decompile/multiLine2single
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "sourceRegExp": {
+    "1": "@RequestMapping\\(",
+    "2": "value = \\{\"(\\S+)\"\\},",
+    "3": "method = [{]RequestMethod.(POST|GET)[}]",
+    "4": "\\)"
+  },
+  "targetRegExp": "@RequestMapping(value = \"$1\", method = RequestMethod.$2)"
+}
+
+### 多行RequestMapping注解变一行
+POST http://localhost:609/decompile/multiLine2single
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "sourceRegExp": {
+    "1": "@RequestMapping\\(",
+    "2": "value = \\{\"(\\S+)\"\\},",
+    "3": "method = [{]RequestMethod.POST, RequestMethod.GET[}]",
+    "4": "\\)"
+  },
+  "targetRegExp": "@RequestMapping(value = \"$1\")"
+}
+
+### 多行RequestMapping注解变一行
+POST http://localhost:609/decompile/multiLine2single
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "sourceRegExp": {
+    "1": "@RequestMapping\\(",
+    "2": "value = \\{\"(\\S+)\"\\},",
+    "3": "method = [{]RequestMethod.GET, RequestMethod.POST[}]",
+    "4": "\\)"
+  },
+  "targetRegExp": "@RequestMapping(value = \"$1\")"
+}
+
+### this.增加
+POST http://localhost:609/decompile/appendStr
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "targetsPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "targetsType": "java",
+  "appendStr": "this."
+}
+
+### 增加尾行注释
+POST http://localhost:609/decompile/appendLineComment
+Content-Type: application/json
+
+{
+  "check": true,
+  "targetsPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "targetsType": "java",
+  "appendStr": "aaaaaaaaaaaaaa"
+}

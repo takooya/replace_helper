@@ -1,0 +1,13 @@
+ui:
+MultiTableController.java=List<String> hesdList = new ArrayList<>(Arrays.asList("ID" , "代码ID" , "语言代码" , "文本" , "长文本", "时间戳" , "代码" , "公司id" , "表名" , "描述文本" ));
+SearchHelpController.java=List<String> hesdList = new ArrayList<>(Arrays.asList("搜索帮助名称", "微服务", "字段名", "字段描述", "位置"));
+JsonToExcelUtil.java=用例编码
+JsonToExcelUtil.java=用例名称
+JsonToExcelUtil.java=模块编码
+JsonToExcelUtil.java=模块名称
+JsonToExcelUtil.java=规则标识
+JsonToExcelUtil.java=字段编码
+JsonToExcelUtil.java=字段名称
+Row2Line.java=空值
+TableServiceImpl.java=out.put(RET_KEY_ERRMSG, "未发现" + gateName + "服务。");
+

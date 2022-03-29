@@ -1,0 +1,13 @@
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveFailNmainid=保存数据失败,nmainid不能为空
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveFailSameData=保存数据失败,存在相同数据
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveFailLangCode=保存数据失败,语言代码不能为空
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveFailTextNull=保存数据失败,文本不能为空
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveFailCompanyIdNull=保存数据失败,公司id不能为空
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveFailLongTextNull=保存数据失败,长文本不能为空
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveSuccess=保存成功！
+ERR.baseoracle.MultiLanguageTextServiceImpl.saveFail=保存失败！
+ERR.baseoracle.MultiLanguageTextServiceImpl.delSuccess=删除成功！
+ERR.baseoracle.MultiLanguageTextServiceImpl.delFail=删除失败
+ERR.baseoracle.MultiLanguageTextServiceImpl.delFailIdsNull=删除失败！ids不能为空
+ERR.baseoracle.MultiLanguageTextServiceImpl.delFailParamWrong=删除失败！请刷新后重试,并检查传入参数是否正确
+ERR.baseoracle.MultiLanguageTextServiceImpl.delFailParamNull=删除失败！入参不能为空

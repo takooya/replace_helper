@@ -1,0 +1,32 @@
+### ZyqQx8s-app1sKuAYnND
+### GET /projects/:id/repository/files/:file_path
+# curl --header "PRIVATE-TOKEN: <your_access_token>" "https://gitlab.example.com/api/v4/projects/13083/repository/files/app%2Fmodels%2Fkey%2Erb?ref=master"
+# app/models/key%2Erb?ref=master"
+# %2E : .
+# %2F : /
+GET http://10.133.80.184/api/v4/projects/spring%2Ftds-service-spa-manasal
+PRIVATE-TOKEN: ZyqQx8s-app1sKuAYnND
+
+> {%
+client.global.set("id", response.body.id);
+%}
+
+###
+GET http://10.133.80.184/api/v4/projects/{{id}}/repository/files/pom%2Exml?ref=master
+PRIVATE-TOKEN: ZyqQx8s-app1sKuAYnND
+
+###
+GET http://10.133.80.184/api/v4/projects/{{id}}/repository/tree?path=src
+PRIVATE-TOKEN: ZyqQx8s-app1sKuAYnND
+
+###
+GET http://10.133.2.85:8099/api/v4/projects
+PRIVATE-TOKEN: mKtxx1_SZmwaQKvbnvT9
+
+###
+GET http://10.133.80.184/api/v4/projects
+PRIVATE-TOKEN: ZyqQx8s-app1sKuAYnND
+
+###
+
+

@@ -1,0 +1,47 @@
+GET http://localhost:609/sqlite/select
+
+###
+GET http://localhost:609/html/index
+
+###
+GET http://localhost:609/initProp?sourcePath=fd
+
+###
+POST http://localhost:609/dictInfo/insert
+Content-Type: application/json
+
+{
+  "code": "test5",
+  "value": "test5"
+}
+
+###
+POST http://localhost:609/dictInfo/updateByCode
+Content-Type: application/json
+
+{
+  "code": "test",
+  "value": "test1"
+}
+
+###
+GET http://localhost:609/dictInfo/selectList
+
+###
+POST http://localhost:609/checkI18nUtil
+Content-Type: application/json
+
+{
+  "sourcePath": "C:\\Users\\takooya\\idea_project\\qm_server\\tds-sys\\src\\main\\java"
+}
+
+###
+POST http://localhost:609
+Content-Type: application/json
+
+{
+  "str1": "abcd",
+  "str2": "dcba"
+}
+
+###

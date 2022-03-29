@@ -1,0 +1,56 @@
+POST http://localhost:609/git/projectid
+Content-Type: application/json
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+
+{
+  "path": "spring-jck/jck-com-service-quartz"
+}
+
+> {% client.global.set("projectid", response.body.data.id); %}
+
+###
+GET http://localhost:609/git/projects
+githost: 10.133.2.85:8099
+token: mKtxx1_SZmwaQKvbnvT9
+projectid: {{projectid}}
+
+###
+GET http://localhost:609/git/projects/http_url_to_repo
+githost: 10.133.2.85:8099
+token: mKtxx1_SZmwaQKvbnvT9
+projectid: {{projectid}}
+
+###
+GET http://localhost:609/git/projects
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+projectid: {{projectid}}
+
+###
+GET http://localhost:609/git/projects/_links
+githost: 10.133.2.104
+token: k8JwARfaFB1Edxac4GCT
+projectid: {{projectid}}
+
+###
+POST http://localhost:609/git/projects/loopByCondition
+Content-Type: application/json
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+projectid: {{projectid}}
+namespace: TDS-SERVICE-JCK
+
+{
+  "branch": "dev",
+  "projects_filter": "jck-com-service-quartz"
+}
+
+###
+GET http://localhost:609/git/projects/http_url_to_repo
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+projectid: {{projectid}}
+namespace: TDS-SERVICE-JCK
+
+###

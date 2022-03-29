@@ -1,0 +1,61 @@
+server:
+  port: 609
+spring:
+  datasource:
+    #    配置文件中如果配置相对路劲是无法在db文件中完成事务操作的，但sql语句打印出来是没问题的，且没有任何异常，
+    #  所以在这里我使用的是绝对路径
+    url: jdbc:sqlite::resource:toolkit.db
+    driver-class-name: org.sqlite.JDBC
+    druid:
+      # 初始化大小，最小，最大
+      initialSize: 1
+      minIdle: 3
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 30000
+      validationQuery: select 'x';
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: false
+      #      maxPoolPreparedStatementPerConnectionSize:  20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      # sqlite不支持wall，使用sqlite请去掉
+      filters: stat,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      #useGlobalDataSourceStat=true
+  freemarker:
+    # 关闭缓存、及时刷新、上线生产环境需要修改为true
+    cache: false
+    # 设定ftl文件路径
+    template-loader-path: classpath:/templates
+    # 模板编码
+    charset: utf-8
+    # 检查模板位置是否存在。
+    check-template-location: true
+    # 内容类型值。
+    content-type: text/html
+    # 设置是否应在与模板合并之前将所有请求属性添加到模型中。
+    expose-request-attributes: true
+    # 设置是否应在与模板合并之前将所有HttpSession属性添加到模型中。
+    expose-session-attributes: true
+    # 所有视图的请求上下文属性的名称。
+    request-context-attribute: request
+    # 在构建URL时附加到视图名称的后缀。
+    suffix: .ftl
+logging:
+  level:
+    sun:
+      rmi: info
+    root: debug
+    org:
+      springframework: info
+      rmi: info
+      apache: info

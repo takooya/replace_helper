@@ -1,0 +1,17 @@
+# curl --request POST --header "PRIVATE-TOKEN:xxxx" --data "name=apitest&namespace_id=2" http://ip/api/v4/projects
+GET http://10.133.2.104/api/v4/projects
+PRIVATE-TOKEN: k8JwARfaFB1Edxac4GCT
+Content-Type: application/x-www-form-urlencoded
+
+name=sany-app-service&namespace_id=53
+
+###
+# curl --header "Private-Token: <your_access_token>" "https://gitlab.example.com/api/v4/projects/26/clusters"
+GET http://10.133.2.104/api/v4/groups/53/projects
+Private-Token: k8JwARfaFB1Edxac4GCT
+
+###
+
+
+
+

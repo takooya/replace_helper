@@ -1,0 +1,4 @@
+ERR.basemq.MultiTextSyncUtil.msgSendFail=消息分发失败。
+MSG.basemq.AbstractListener.manualAckReceiveMsg=广播队列1，手动ACK，接收消息：{}
+ERR.basemq.AbstractListener.enterDeadLetterException=加入死信异常
+ERR.basemq.AbstractListener.confirmMsgException=确认信息异常

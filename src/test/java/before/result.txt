@@ -1,0 +1,17 @@
+ChandaoApiController.java=创建任务失败
+ChandaoApiController.java=resultVo.setMsg("BUG单" +taskID + "已指派给"+ chandaoApiDTO.getAssignedTo() +"跟进");
+ChandaoApiController.java=resultVo.setMsg("任务单" +taskID + "已指派给"+ chandaoTaskApiDTO.getAssignedto() +"跟进");
+OnlineUserController.java=操作成功
+ServiceLogController.java=起始日期和结束日期不能为空！
+SlowSqlLogController.java=请选择查询时间!
+UiactionLogsController.java=保存成功
+UiactionLogsController.java=撒发顺丰
+UiactionLogsController.java=新建
+QmException.java=自定义异常信息[
+ChandaoApiServiceImpl.java=创建id
+ChandaoApiServiceImpl.java=刷新成功
+OnlineUserServiceImpl.java=系统强制退出
+OnlineUserServiceImpl.java=用户信息不完整，无法查询到登录的详细信息
+OnlineUserServiceImpl.java=用户未登录或登录信息已过期！
+SysErrorServiceImpl.java=非法登出
+ElkLogUtils.java=Elk日志构建失败！

@@ -1,0 +1,76 @@
+###
+POST http://localhost:609/updateByReg
+Content-Type: application/json
+
+{
+  "check": true,
+  "targetsType": "xml",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindazc-springboot\\src\\main\\java\\com\\iss\\itreasury",
+  "regExpMap": {
+    "<isNotEmpty prepend=\"( AND  | AND |AND| OR |OR| and  | and |and| or |or|| )\" property=\"(\\S+)\">": "<if test=\"$2 != null and $2 != ''\">\n $1",
+    "<isNotEmpty property=\"(\\S+)\" prepend=\"( AND  | AND |AND| OR |OR| and  | and |and| or |or|| )\">": "<if test=\"$1 != null and $1 != ''\">\n $2",
+    "<isNotEmpty property=\"(\\S+)\">": "<if test=\"$1 != null and $1 != ''\">",
+    "<isNotEmpty prepend=\"( AND |AND| OR |OR| and |and| or |or|)\" property=\"(\\S+)\">": "<if test=\"$1 != null and $1 != ''\">",
+    "<isEmpty property=\"(\\S+)\">": "<if test=\"$1 == null or $1 == ''\">",
+    "<isNotEqual prepend=\"( AND |AND| OR |OR| and |and| or |or|)\" property=\"(\\S+)\" compareValue=\"(\\S+)\">": "<if test=\"$2 != '$3'\">\n $1",
+    "<isNotEqual property=\"(\\S+)\" compareValue=\"(\\S+)\" prepend=\"(| |  )\">": "<if test=\"$1 != '$2'\">",
+    "<isNotEqual property=\"(\\S+)\" compareValue=\"(\\S+)\" prepend=\"( and )\">": "<if test=\"$1 != '$2'\">\n $3",
+    "<isNotEqual property=\"(\\S+)\" compareValue=\"(\\S+)\">": "<if test=\"$1 != '$2'\">\n $3",
+    "<isEqual prepend=\"( AND |AND| OR |OR| and |and| or |or|)\" property=\"(\\S+)\" compareValue=\"(\\S+)\">": "<if test=\"$2 == '$3'\">\n $1",
+    "<isEqual property=\"(\\S+)\" compareValue=\"(\\d+)\">": "<if test=\"$1 == $2\">",
+    "<isEqual property=\"(\\S+)\" compareValue=\"(\\S+)\">": "<if test=\"$1 == '$2'\">",
+    "<isEqual property=\"(\\S+)\" compareValue=\"(\\S+)\" prepend=\"( AND |AND| OR |OR| and |and| or |or|)\">": "<if test=\"$1 == '$2'\">\n $3",
+    "</(isNotEmpty|isEmpty|isNotEqual|isEqual)>": "</if>",
+    "<!DOCTYPE sqlMap PUBLIC .*": "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">",
+    "<sqlMap namespace=\"(\\S+)\">": "<mapper namespace=\"$1\">",
+    "<iterate open=\"(\\S+)\" close=\"(\\S+)\" conjunction=\"(\\S+)\" property=\"(\\S+)\">": "<foreach open=\"$1\" close=\"$2\" separator=\"$3\" collection=\"$4\">",
+    "</iterate>": "</foreach>",
+    "</sqlMap>": "</mapper>",
+    "'%\\$(\\S+)\\$%'": "concat(concat('%',#{$1}),'%')",
+    "'\\$(\\S+)\\$'": "#{$1}",
+    "\\$(\\S+)\\$": "${$1}",
+    "#(\\S+)#": "#{$1}",
+    "(parameter|result)Class=": "$1Type="
+  }
+}
+
+###
+POST http://localhost:609/updateByReg
+Content-Type: application/json
+
+{
+  "check": true,
+  "targetsType": "java",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindazc-springboot\\src\\main\\java\\com",
+  "regExpMap": {
+    "public interface (\\S+)Dao extends BaseDAO(| )\\{": "@Mapper\npublic interface $1Dao extends BaseMapper<$1> {",
+    "throws DAOException": "",
+    "extends AbstractEntity\\{": "{\n@TableId\nprivate Long id;",
+    "extends AbstractEntity \\{": "{\n@TableId\nprivate Long id;",
+    "extends DataVersionAbstractEntity \\{": "{\n@TableId\nprivate Long id;\nprivate Long dataVersion;",
+    "@Table\\(name = \"(\\S+)\"\\)": "@TableName(\"$1\")\n@Data",
+    "@Entity": "",
+    "@Transient": "@TableField(exist = false)",
+    "public \\S+ get\\S+\\(\\) \\{": "",
+    "public void set\\S+(\\S+ \\S+) \\{": "",
+    "this.\\S+ = \\S+;": "",
+    "(\\S+Dao)\\.save\\((\\S+)\\)\\;": "if($2.getId()==null){\n$1.insert($2);\n}else{\n$1.updateById($2);\n}",
+    "extends AbstractService": "",
+    "@Service\\(\"\\S+\"\\)": "@Service",
+    "BaseSelect (\\S+) = SelectFactory.createBaseSelect\\(\\);": "Map<String, String> $1 = new HashMap<>();",
+    "baseSelect.addOption": "baseSelect.put",
+    "baseSelect.addAll\\(\\);": "baseSelect.put(\"0\", \"全部\");",
+    "baseSelect.addNone\\(\\);": "baseSelect.put(\"-1\", \"&nbsp;\");",
+    "baseSelect.addNone_\\(\\);": "baseSelect.put(\"0\", \"&nbsp;\");",
+    "baseSelect.addAll_\\(\\);": "baseSelect.put(\"-1\", \"全部\");",
+    "return baseSelect.getJSONSelectInfo\\(\\);": "return JSONUtil.toJsonStr(baseSelect);",
+    "StringUtils.isNotEmpty": "StrUtil.isNotEmpty",
+    "StringUtils.isEmpty": "StrUtil.isEmpty",
+    "": ""
+  }
+}
+
+###    "return baseSelect.getJSONSelectInfo();": "baseSelect.put",
+###   "(\\S+).get\\((\\S+)\\);": "$1.selectById($2);",
+
+

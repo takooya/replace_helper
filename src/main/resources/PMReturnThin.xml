@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PMReturnThin">
+
+    <!-- 查询待回收流水 -->
+    <select id="queryPMReturnTransactionDataGrid" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select ak.*,(ak.realreturnamount - ak.confirmedamount) unConfirmedamount from (
+        select k.id,k.applytype,
+        nvl(ta.accountno, k.homeaccountno) homeaccountno,
+        ta.accountname accountname,
+        k.realreturndate,k.realreturnamount,
+        nvl((select nvl(sum(prbl.amount), 0) confirmedamount
+        from pm_return_banktrans_link prbl,
+        (select pr.id from pm_return pr where pr.statusid = 1
+        union all
+        select pt.id from PM_DEPOSIT pt where pt.statusid = 1) p
+        where prbl.pmreturnid = p.id
+        and prbl.bptransid = k.id
+        and prbl.statusid = 1
+        ),
+        0) confirmedamount,k.abstractinfo,k.remark,k.channel
+        from PM_RETURN_ACCOUNTTRANS_LINK k,(select * from ts_account ta where ta.statusid = 1) ta
+        where k.homeaccountid = ta.id(+) and k.agencyid = ${agencyId} and k.statusid = 1 and to_char(k.realreturndate,
+        'YYYY-MM') = #{returnMonth}
+        <if test="channel != null and channel != ''">
+
+            <if test="channel != '0'">
+                and
+                k.channel = ${channel}
+            </if>
+        </if>
+        <if test="realreturndate != null and realreturndate != ''">
+            and
+            k.realreturndate = to_date(#{realreturndate},'yyyy-mm-dd')
+        </if>
+        AND EXISTS (
+        <if test="status != null and status != ''">
+            <if test="status == 0">
+                <if test="ebsapprovestatus != null and ebsapprovestatus != ''">
+                    <if test="ebsapprovestatus == 0">
+                        <if test="returnType != null and returnType != ''">
+                            <if test="returnType == 0">
+                                SELECT 1 FROM dual
+                                <!-- WHERE
+                                0 = (SELECT COUNT(1) FROM pm_return_banktrans_link bkl
+                                WHERE bkl.bptransid = k.id and bkl.statusid=1 ) -->
+                                union all
+                            </if>
+                        </if>
+                    </if>
+                </if>
+            </if>
+        </if>
+        SELECT 1 FROM pm_return_banktrans_link bk, pm_return pr,pm_stage ps,pm_apply pa WHERE bk.pmreturnid = pr.id
+        and pr.pmstageid = ps.id(+)
+        and pr.pmapplyid = pa.id(+)
+        AND bk.statusid = 1 AND bk.bptransid = k.id
+        <if test="status != null and status != ''">
+
+            <if test="status != '0'">
+                and pr.status = ${status}
+                and pr.statusid = 1
+            </if>
+        </if>
+        <if test="ebsapprovestatus != null and ebsapprovestatus != ''">
+
+            <if test="ebsapprovestatus != '0'">
+                and pr.ebsapprovestatus = ${ebsapprovestatus}
+            </if>
+        </if>
+        <if test="returnType != null and returnType != ''">
+
+            <if test="returnType != '0'">
+                and pr.returntype = ${returnType}
+            </if>
+        </if>
+        <if test="applyCode != null and applyCode != ''">
+
+            and pa.applycode like concat(concat('%',#{applyCode}),'%')
+        </if>
+        <if test="projectCode != null and projectCode != ''">
+
+            and ps.procode like concat(concat('%',#{projectCode}),'%')
+        </if>
+        UNION ALL
+        SELECT 1 FROM pm_return_banktrans_link bk, pm_deposit pd,pm_stage ps,pm_apply pa WHERE bk.pmreturnid = pd.id
+        and pd.pmapplyid = pa.id(+)
+        and pd.pmstageid = ps.id(+)
+        and bk.statusid = 1 and bk.bptransid = k.id
+        <if test="status != null and status != ''">
+
+            <if test="status != '0'">
+                and pd.status = ${status}
+                AND pd.statusid = 1
+            </if>
+        </if>
+        <if test="ebsapprovestatus != null and ebsapprovestatus != ''">
+
+            <if test="ebsapprovestatus != '0'">
+                and pd.ebsapprovestatus = ${ebsapprovestatus}
+                and pd.statusid = 1
+            </if>
+        </if>
+        <if test="returnType != null and returnType != ''">
+
+            <if test="returnType != '0'">
+                and 4 = ${returnType}
+            </if>
+        </if>
+        <if test="applyCode != null and applyCode != ''">
+
+            and pa.applycode like concat(concat('%',#{applyCode}),'%')
+        </if>
+        <if test="projectCode != null and projectCode != ''">
+
+            and ps.procode like concat(concat('%',#{projectCode}),'%')
+        </if>
+        )
+        order by k.realreturndate asc,k.id asc
+        ) ak
+    </select>
+
+    <!-- 回收情况查询 -->
+    <select id="queryPmThinAccountTransLinkById" parameterType="java.lang.Long"
+            resultType="com.iss.itreasury.projectmanagement.pmreturnthin.entity.PmThinAccountTransPage">
+        select ak.*, (ak.realreturnamount - ak.confirmedamount) unConfirmedamount, ak.id transId
+        from (
+                 select k.id,
+                        k.applyType,
+                        ta.accountNo,
+                        k.branchAccountId,
+                        ta.accountName,
+                        to_char(k.realreturndate, 'YYYY-MM-DD') realReturnDate,
+                        k.realreturnamount                      realReturnAmount,
+                        nvl((select nvl(sum(prbl.amount), 0) confirmedamount
+                             from pm_return_banktrans_link prbl,
+                                  (select pr.id
+                                   from pm_return pr
+                                   where pr.statusid = 1
+                                   union all
+                                   select pt.id
+                                   from PM_DEPOSIT pt
+                                   where pt.statusid = 1) p
+                             where prbl.pmreturnid = p.id
+                               and prbl.bptransid = k.id
+                               and prbl.statusid = 1
+                            ),
+                            0)                                  confirmedamount,
+                        k.channel,
+                        sa.agencyName,
+                        sa.id                                   agencyId,
+                        homeTa.accountno                        homeAccountNo,
+                        k.homeAccountId,
+                        homeTa.accountname                      homeAccountName
+                 from PM_RETURN_ACCOUNTTRANS_LINK k,
+                      (select * from ts_account ta where ta.statusid = 1) ta,
+                      (select * from ts_account ta where ta.statusid = 1) homeTa,
+                      sys_agency sa
+                 where k.branchAccountId = ta.id(+)
+                   and k.homeaccountid = homeTa.Id(+)
+                   and k.agencyId = sa.id
+                   and k.id = #{id}) ak
+    </select>
+
+    <!-- 查询一个流水下的所有回收单信息 -->
+    <select id="queryPmThinReturnDataGrid" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT bk.id        linkId,
+               t.id,
+               t.returncode,
+               t.returntype,
+               t.returnagencytype,
+               ps.agencyname,
+               ps.agencycode,
+               ps.businesline,
+               ps.procode,
+               ps.proname,
+               pa.applycode,
+               t.realreturndate,
+               t.realreturnamount,
+               t.confirmamount,
+               t.unconfirmamount,
+               t.status     statusname,
+               t.status,
+               t.dataversion,
+               2            adjustflg,
+               t.ebsApproveStatus,
+               t.refuseInfo,
+               t.applytype,
+               t.datastatus,
+               t.datastatus datastatustext,
+               n.nextOperators
+        FROM PM_RETURN_ACCOUNTTRANS_LINK ak
+                 left join pm_return_banktrans_link bk on ak.id = bk.bptransid
+                 left join pm_return t on bk.pmreturnid = t.id
+                 left join pm_apply pa on pa.id = t.pmapplyid
+                 left join pm_stage ps on t.pmstageid = ps.id
+                 left join (select *
+                            from (select TODOTASKS.*, rank() over(partition by processid order by userid) rank
+                                  from TODOTASKS)
+                            where rank = 1) t3 on t3.billId = to_char(t.id)
+                 left join sys_jbpm4transattr n　on t3.processId = n.step_id
+        where t.statusid = 1
+          and ak.statusid = 1
+          and bk.statusid = 1
+          and pa.statusid = 1
+          and ak.id = ${bpTransId}
+        union all
+        select bk.id            linkId,
+               pt.id,
+               pt.depositcode   returncode,
+               4                returntype,
+               0                returnagencytype,
+               ps.agencyname,
+               ps.agencycode,
+               ps.businesline,
+               ps.procode,
+               ps.proname,
+               ''               applycode,
+               pt.depositdate   realreturndate,
+               pt.depositamount realreturnamount,
+               0                confirmamount,
+               0                unconfirmamount,
+               pt.status        statusname,
+               pt.status,
+               pt.dataversion,
+               2                adjustflg,
+               pt.ebsApproveStatus,
+               pt.refuseInfo,
+               pt.applytype,
+               null             datastatus,
+               null             datastatustext,
+               n.nextOperators
+        from PM_RETURN_ACCOUNTTRANS_LINK ak
+                 left join pm_return_banktrans_link bk on ak.id = bk.bptransid
+                 left join pm_deposit pt on bk.pmreturnid = pt.id
+                 left join (select * from pm_stage s where s.status = 1) ps on pt.pmstageid = ps.id
+                 left join (select *
+                            from (select TODOTASKS.*, rank() over(partition by processid order by userid) rank
+                                  from TODOTASKS)
+                            where rank = 1) t3 on t3.billId = to_char(pt.id)
+                 left join sys_jbpm4transattr n　on t3.processId = n.step_id
+        where pt.statusid = 1
+          and ak.statusid = 1
+          and bk.statusid = 1
+          and ak.id = ${bpTransId}
+    </select>
+
+    <!-- 查询回收单与流水关联表 -->
+    <select id="queryPmReturnBankTransRelationById" parameterType="java.util.HashMap"
+            resultType="com.iss.itreasury.projectmanagement.pmreturn.entity.PmReturnBankTransRelation">
+        select prbl.*
+        from pm_return_banktrans_link prbl
+                 inner join pm_return_accounttrans_link pral on prbl.bptransid = pral.id and pral.statusid = 1
+                 inner join
+             (select pr.id
+              from pm_return pr
+              where pr.statusid = 1
+              union
+              select pd.id
+              from pm_deposit pd
+              where pd.statusid = 1) pr on prbl.pmreturnid = pr.id
+        where prbl.statusid = 1
+          and pr.id = #{pmReturnId}
+
+    </select>
+
+    <!-- 查询回收单与流水关联表 -->
+    <select id="queryPmReturnBankTransRelationList" parameterType="java.util.HashMap"
+            resultType="com.iss.itreasury.projectmanagement.pmreturn.entity.PmReturnBankTransRelation">
+        select * from PM_RETURN_BANKTRANS_LINK pk where pk.statusid = 1
+        <if test="bpTransId != null and bpTransId != ''">
+            AND
+            pk.bpTransId = #{bpTransId}
+        </if>
+        <if test="pmReturnId != null and pmReturnId != ''">
+            AND
+            pk.pmReturnId = #{pmReturnId}
+        </if>
+    </select>
+
+    <!-- 查询进入回收修改页面数据 -->
+    <select id="queryPMThinReturnPage" parameterType="java.lang.String"
+            resultType="com.iss.itreasury.projectmanagement.pmreturnthin.entity.PMThinReturnPage">
+        select pn.id                                    pmReturnId,
+               pk.id                                    linkId,
+               pa.id                                    transLinkId,
+               py.applyCode,
+               ps.proCode,
+               ps.proName,
+               pn.realReturnAmount,
+               to_char(pn.realReturnDate, 'YYYY-MM-DD') realReturnDate,
+               py.id                                    pmApplyId,
+               ps.id                                    pmStageId,
+               py.borrowAmount,
+               pn.agencyId,
+               pn.remark,
+               pn.returnCode,
+               pn.status,
+               pn.pmDepositId,
+               pn.depositReturnAmount,
+               pn.depositReturnInteres,
+               pn.dataversion， pn.dataStatus, pn.cashpay,
+               pn.stepId
+        from PM_RETURN_BANKTRANS_LINK pk
+                 inner join PM_RETURN pn on pk.pmreturnid = pn.id
+                 inner join PM_RETURN_ACCOUNTTRANS_LINK pa on pk.bptransid = pa.id
+                 inner join pm_apply py on pn.pmapplyid = py.id
+                 inner join pm_stage ps on py.pmstageid = ps.id
+        where pk.statusid = 1
+          and pn.statusid = 1
+          and pa.statusid = 1
+          and py.statusid = 1
+          and pk.id = #{linkId}
+    </select>
+
+    <!-- 查询流水关联的回收单 -->
+    <select id="queryPmReturnThinList"
+            resultType="com.iss.itreasury.projectmanagement.pmreturnthin.entity.PmReturnThin">
+        select pn.*
+        from pm_return pn,
+             pm_return_banktrans_link pk
+        where pn.id = pk.pmreturnid
+          and pn.applytype = pk.applytype
+          and pk.statusid = 1
+          and pn.statusid = 1
+          and pn.status in (1, 3)
+          and pk.bptransId = #{linkId}
+    </select>
+
+    <!-- 查询流水关联的上存单 -->
+    <select id="queryPmDepositList"
+            resultType="com.iss.itreasury.projectmanagement.pmdeposit.pmdeposit.entity.PmDeposit">
+        select pt.*
+        from PM_DEPOSIT pt,
+             pm_return_banktrans_link pk
+        where pt.id = pk.pmreturnid
+          and pt.applytype = pk.applytype
+          and pk.statusid = 1
+          and pt.statusid = 1
+          and pt.status in (1, 3)
+          and pk.bptransId = #{linkId}
+    </select>
+
+    <select id="queryPMThinDepositPageById"
+            resultType="com.iss.itreasury.projectmanagement.pmreturnthin.entity.PMThinDepositPage">
+        select pt.*,
+               sa.agencyname      agencyName,
+               branch.accountno   depositOutAccountNo,
+               branch.accountname depositOutAccountName,
+               home.accountno     depositInAccountNo,
+               home.accountname   depositInAccountName,
+               sy.agencyname      responsibilityName,
+               ps.proCode,
+               ps.proName,
+               pt.status,
+               sdv.dictname       depositTypeName,
+               pt.stepId
+        from PM_DEPOSIT pt
+                 left join sys_agency sa on pt.agencyid = sa.id
+                 left join ts_account branch on pt.depositOutAccountId = branch.id and branch.statusid = 1
+                 left join ts_account home on pt.depositInAccountId = home.id and home.statusid = 1
+                 left join sys_agency sy on pt.responsibilityid = sy.id
+                 left join pm_stage ps on ps.id = pt.pmstageid and ps.status = 1
+                 left join sys_datadictionary_value sdv
+                           on sdv.dictcode = pt.deposittypecode and sdv.dicttype = 'CapitalDepositType'
+        where pt.id = #{depositId}
+    </select>
+
+
+    <!-- 回收指认 已办 -->
+    <select id="queryPMReturnLinkAlreayDataGrid" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select ak.*,(ak.realreturnamount - ak.confirmedamount) unConfirmedamount from (
+        select k.id,k.applytype,
+        nvl(ta.accountno, k.homeaccountno) homeaccountno,ta.accountname accountname,
+        k.realreturndate,k.realreturnamount,
+        nvl((select nvl(sum(prbl.amount), 0) confirmedamount
+        from pm_return_banktrans_link prbl,
+        (select pr.id from pm_return pr where pr.statusid = 1
+        union all
+        select pt.id from PM_DEPOSIT pt where pt.statusid = 1) p
+        where prbl.pmreturnid = p.id and prbl.bptransid = k.id and prbl.statusid = 1
+        ),
+        0) confirmedamount,k.abstractinfo,k.remark,k.channel,
+        tk.submitUser,
+        tk.submitDate submitDate,
+        tk.nextOperators
+        from PM_RETURN_ACCOUNTTRANS_LINK k,
+        (select * from ts_account ta where ta.statusid = 1) ta,
+        v_pm_returnlink_alreadytask tk
+        where
+        k.homeaccountid = ta.id(+)
+        <if test="agencyId != null and agencyId != ''">
+            AND
+            k.agencyid = ${agencyId}
+        </if>
+        and k.statusid = 1
+        and k.id = tk.bptransid
+        <if test="returnMonth != null and returnMonth != ''">
+            AND
+            to_char(k.realreturndate, 'YYYY-MM') = #{returnMonth}
+        </if>
+        <if test="userNo != null and userNo != ''">
+            AND
+            tk.assignee like concat(concat('%',#{userNo}),'%')
+        </if>
+        <if test="applyDateStr != null and applyDateStr != ''">
+            and
+            <![CDATA[tk.submitDate >= to_date(#{applyDateStr},'yyyy-mm-dd')]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd != ''">
+            and
+            <![CDATA[tk.submitDate <= to_date(#{applyDateEnd},'yyyy-mm-dd') + 1]]>
+        </if>
+        ) ak
+        order by ak.realreturndate desc, ak.realreturnamount desc
+    </select>
+
+    <!-- 回收指认 待办 -->
+    <select id="queryPMReturnLinkToDaoDataGrid" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select ak.*,(ak.realreturnamount - ak.confirmedamount) unConfirmedamount from (
+        select k.id,k.applytype,
+        nvl(ta.accountno, k.homeaccountno) homeaccountno,ta.accountname accountname,
+        k.realreturndate,k.realreturnamount,
+        nvl((select nvl(sum(prbl.amount), 0) confirmedamount
+        from pm_return_banktrans_link prbl,
+        (select pr.id from pm_return pr where pr.statusid = 1
+        union all
+        select pt.id from PM_DEPOSIT pt where pt.statusid = 1) p
+        where prbl.pmreturnid = p.id and prbl.bptransid = k.id and prbl.statusid = 1
+        ),
+        0) confirmedamount,k.abstractinfo,k.remark,k.channel,
+        tk.submitUser,
+        tk.submitDate,
+        tk.nextOperators
+        from PM_RETURN_ACCOUNTTRANS_LINK k,
+        (select * from ts_account ta where ta.statusid = 1) ta,
+        (select * from (select k.*,rank() over(partition by k.bptransid order by ASSIGNEE) rank
+        from v_pm_returnlink_todotask k
+        where k.ASSIGNEE like concat(concat('%',#{userNo}),'%')
+        ) where rank=1) tk
+        where
+        k.homeaccountid = ta.id(+)
+        <if test="agencyId != null and agencyId != ''">
+            AND
+            k.agencyid = ${agencyId}
+        </if>
+        and k.statusid = 1
+        and k.id = tk.bptransid
+        <if test="returnMonth != null and returnMonth != ''">
+            AND
+            to_char(k.realreturndate, 'YYYY-MM') = #{returnMonth}
+        </if>
+        <if test="userNo != null and userNo != ''">
+            AND
+            tk.assignee like concat(concat('%',#{userNo}),'%')
+        </if>
+        <if test="applyDateStr != null and applyDateStr != ''">
+            and
+            <![CDATA[tk.submitDate >= to_date(#{applyDateStr},'yyyy-mm-dd')]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd != ''">
+            and
+            <![CDATA[tk.submitDate <= to_date(#{applyDateEnd},'yyyy-mm-dd') + 1]]>
+        </if>
+        ) ak
+        order by ak.realreturndate asc, ak.realreturnamount asc
+    </select>
+
+    <!-- 待办 回收流水 -->
+    <select id="queryPMReturnToDaoDataGrid" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select * from (
+        SELECT t.id,
+        t.billId,
+        t.startTime applyDate,
+        t.businessType,
+        t.businessName,
+        t.processId,
+        pt.returncode,
+        pt.returntype,
+        pt.returnagencytype,
+        sa.agencyname,
+        sa.agencycode,
+        ps.businesline,
+        ps.procode,
+        ps.proname,
+        pa.applycode,
+        pt.realreturndate,
+        pt.realreturnamount,
+        pt.confirmamount,
+        pt.unconfirmamount,
+        pt.status statusname,
+        pt.status,
+        pt.dataversion,
+        2 adjustflg,
+        pt.ebsApproveStatus,
+        pt.applytype,
+        s.userName submitUser,
+        t.startTime submitDate,
+        n.nextOperators
+        FROM
+        (select * from (select TODOTASKS.*, rank() over(partition by processid order by userid) rank
+        from TODOTASKS where ASSIGNEE = #{userNo} or USERID = #{userNo} or AGENTID like
+        concat(concat('%',#{userNo}),'%'))
+        where rank = 1) t,
+        pm_return pt,
+        pm_apply pa,
+        pm_stage ps,
+        SYS_JBPM4TRANSATTR n,
+        sys_user s,
+        sys_agency sa
+        WHERE pa.id = pt.pmapplyid
+        and pt.pmstageid = ps.id
+        and to_char(pt.id) = t.billId
+        and t.processId = n.step_id(+)
+        and t.submitUserCode = s.userNo(+)
+        and sa.id = pt.agencyid
+        and pt.statusid = 1
+        and pa.statusid = 1
+        <if test="agencyId != null and agencyId != ''">
+            AND
+            pt.agencyid = ${agencyId}
+        </if>
+        <if test="returnMonth != null and returnMonth != ''">
+            AND
+            to_char(pt.realreturndate, 'YYYY-MM') = #{returnMonth}
+        </if>
+        <if test="applyDateStr != null and applyDateStr != ''">
+            and
+            <![CDATA[t.starttime >= to_date(#{applyDateStr},'yyyy-mm-dd')]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd != ''">
+            and
+            <![CDATA[t.starttime <= to_date(#{applyDateEnd},'yyyy-mm-dd') + 1]]>
+        </if>
+        <if test="returnMonth != null and returnMonth != ''">
+            and
+            <![CDATA[to_char(pt.realreturndate, 'YYYY-MM') = #{returnMonth}]]>
+        </if>
+        union all
+        select t.id,
+        t.billId,
+        t.startTime applyDate,
+        t.businessType,
+        t.businessName,
+        t.processId,
+        pt.depositcode returncode,
+        4 returntype,
+        0 returnagencytype,
+        sa.agencyname,
+        sa.agencycode,
+        ps.businesline,
+        ps.procode,
+        ps.proname,
+        '' applycode,
+        pt.depositdate realreturndate,
+        pt.depositamount realreturnamount,
+        0 confirmamount,
+        0 unconfirmamount,
+        pt.status statusname,
+        pt.status,
+        pt.dataversion,
+        2 adjustflg,
+        pt.ebsApproveStatus,
+        pt.applytype,
+        s.userName submitUser,
+        t.startTime submitDate,
+        n.nextOperators
+        from
+        (select * from (select TODOTASKS.*, rank() over(partition by processid order by userid) rank
+        from TODOTASKS where ASSIGNEE = #{userNo} or USERID = #{userNo} or AGENTID like
+        concat(concat('%',#{userNo}),'%'))
+        where rank = 1) t,
+        pm_deposit pt,
+        (select * from pm_stage s where s.status = 1) ps,
+        SYS_JBPM4TRANSATTR n,
+        sys_user s,
+        sys_agency sa
+        where pt.pmstageid = ps.id(+)
+        and to_char(pt.id) = t.billId
+        and t.processId = n.step_id(+)
+        and t.submitUserCode = s.userNo(+)
+        and sa.id = pt.agencyid
+        and pt.statusid = 1
+        <if test="agencyId != null and agencyId != ''">
+            AND
+            pt.agencyid = ${agencyId}
+        </if>
+        <if test="returnMonth != null and returnMonth != ''">
+            AND
+            to_char(pt.realreturndate, 'YYYY-MM') = #{returnMonth}
+        </if>
+        <if test="applyDateStr != null and applyDateStr != ''">
+            and
+            <![CDATA[t.starttime >= to_date(#{applyDateStr},'yyyy-mm-dd')]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd != ''">
+            and
+            <![CDATA[t.starttime <= to_date(#{applyDateEnd},'yyyy-mm-dd') + 1]]>
+        </if>
+        ) t order by t.realreturndate asc, t.realreturnamount asc
+    </select>
+
+    <!-- 已办 回收流水 -->
+    <select id="queryPMReturnAlreayDataGrid" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select * from (
+        SELECT t.id,
+        t.billId,
+        t.startTime applyDate,
+        t.businessType,
+        t.businessName,
+        t.processId,
+        pt.returncode,
+        pt.returntype,
+        pt.returnagencytype,
+        sa.agencyname,
+        sa.agencycode,
+        ps.businesline,
+        ps.procode,
+        ps.proname,
+        pa.applycode,
+        pt.realreturndate,
+        pt.realreturnamount,
+        pt.confirmamount,
+        pt.unconfirmamount,
+        pt.status statusname,
+        pt.status,
+        pt.dataversion,
+        2 adjustflg,
+        pt.ebsApproveStatus,
+        pt.applytype,
+        s.userName submitUser,
+        t.startTime submitDate,
+        n.nextOperators
+        FROM alreadyDotasks t,
+        pm_return pt,
+        pm_apply pa,
+        pm_stage ps,
+        SYS_JBPM4TRANSATTR n,
+        sys_user s,
+        sys_agency sa
+        WHERE pa.id = pt.pmapplyid
+        and pt.pmstageid = ps.id
+        and to_char(pt.id) = t.billId
+        and t.processId = n.step_id(+)
+        and t.submitUserCode = s.userNo(+)
+        and sa.id = pt.agencyid
+        and pt.statusid = 1
+        and pa.statusid = 1
+        <if test="userNo != null and userNo != ''">
+            AND
+            (t.assignee = #{userNo})
+        </if>
+        <if test="agencyId != null and agencyId != ''">
+            and
+            pt.agencyid = ${agencyId}
+        </if>
+        <if test="applyDateStr != null and applyDateStr != ''">
+            and
+            <![CDATA[t.starttime >= to_date(#{applyDateStr},'yyyy-mm-dd')]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd != ''">
+            and
+            <![CDATA[t.starttime <= to_date(#{applyDateEnd},'yyyy-mm-dd') + 1]]>
+        </if>
+        <if test="returnMonth != null and returnMonth != ''">
+            and
+            <![CDATA[to_char(pt.realreturndate, 'YYYY-MM') = #{returnMonth}]]>
+        </if>
+        union all
+        select t.id,
+        t.billId,
+        t.startTime applyDate,
+        t.businessType,
+        t.businessName,
+        t.processId,
+        pt.depositcode returncode,
+        4 returntype,
+        0 returnagencytype,
+        sa.agencyname,
+        sa.agencycode,
+        ps.businesline,
+        ps.procode,
+        ps.proname,
+        '' applycode,
+        pt.depositdate realreturndate,
+        pt.depositamount realreturnamount,
+        0 confirmamount,
+        0 unconfirmamount,
+        pt.status statusname,
+        pt.status,
+        pt.dataversion,
+        2 adjustflg,
+        pt.ebsApproveStatus,
+        pt.applytype,
+        s.userName submitUser,
+        t.startTime submitDate,
+        n.nextOperators
+        from alreadyDotasks t,
+        pm_deposit pt,
+        (select * from pm_stage s where s.status = 1) ps,
+        SYS_JBPM4TRANSATTR n,
+        sys_user s,
+        sys_agency sa
+        where pt.pmstageid = ps.id(+)
+        and to_char(pt.id) = t.billId
+        and t.processId = n.step_id(+)
+        and t.submitUserCode = s.userNo(+)
+        and pt.agencyid = sa.id
+        and pt.statusid = 1
+        <if test="userNo != null and userNo != ''">
+            AND
+            (t.assignee = #{userNo})
+        </if>
+        <if test="agencyId != null and agencyId != ''">
+            and
+            pt.agencyid = ${agencyId}
+        </if>
+        <if test="applyDateStr != null and applyDateStr != ''">
+            and
+            <![CDATA[t.starttime >= to_date(#{applyDateStr},'yyyy-mm-dd')]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd != ''">
+            and
+            <![CDATA[t.starttime <= to_date(#{applyDateEnd},'yyyy-mm-dd') + 1]]>
+        </if>
+        <if test="returnMonth != null and returnMonth != ''">
+            and
+            <![CDATA[to_char(pt.depositdate, 'YYYY-MM') = #{returnMonth}]]>
+        </if>
+        ) t order by t.realreturndate desc, t.realreturnamount asc
+    </select>
+
+    <!-- 上存转回收 上存单查询 -->
+    <select id="queryPMDepositLinkDataGrid" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select t.*, t.surplusamount surplusamountSpan
+        from (select pt.id, pt.depositcode, pt.depositamount,pt.depositdate, pt.depositName,pt.procode, sy.agencyname
+        responsibilityName,
+        (pt.depositamount - nvl(pr.realreturnamount, 0)) surplusamount,sdv.dictname deposittypename
+        from (select pt.*,ps.procode from pm_deposit pt,pm_stage ps where pt.pmstageid = ps.id(+) and pt.statusid = 1
+        and
+        pt.agencyId = ${agencyId} and pt.ebsapprovestatus = 4 and pt.remainamount > 0 and pt.DEPOSITWAY = 1
+        <if test="depositCode != null and depositCode != ''">
+            AND
+            (pt.depositCode like concat(concat('%',#{depositCode}),'%') or pt.depositName like
+            concat(concat('%',#{depositCode}),'%'))
+        </if>
+        <if test="procode != null and procode != ''">
+            AND
+            (ps.procode = #{procode} or ps.procode is null)
+        </if>
+        ) pt
+        left join sys_agency sy on pt.responsibilityid = sy.id
+        left join (select nvl(sum(pr.realreturnamount), 0) realreturnamount, pmdepositid from pm_return pr
+        where pr.statusid = 1 and pr.applytype = 'RECT' group by pr.pmdepositid) pr on pt.id = pr.pmdepositid
+        left join (select sv.dictcode, sv.dictname from sys_datadictionary_value sv
+        where sv.dicttype = 'CapitalDepositType') sdv on pt.deposittypecode = sdv.dictcode
+        ) t order by t.depositdate desc
+    </select>
+
+    <!-- 查询上存利息 -->
+    <select id="queryPMDepositInterestByDate" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select nvl(pdi.hisinterestamount, 0) hisinterestamount
+        from pm_deposit_interest pdi
+        where pdi.depositid = #{pmDepositId}
+          and pdi.interestdate = to_date(#{realReturnDate}, 'YYYY-MM-DD')
+          and pdi.interestType = 1
+          and pdi.statusid = 1
+    </select>
+
+    <!-- 流水指认保存后校验指认金额 -->
+    <select id="queryPmThinAccountTransLinkBeforeSave" parameterType="java.util.HashMap"
+            resultType="com.iss.itreasury.projectmanagement.pmreturnthin.entity.PmThinAccountTransPage">
+        select ak.*, (ak.realreturnamount - ak.confirmedamount) unConfirmedamount
+        from (
+                 select to_char(k.realreturndate, 'YYYY-MM-DD')     realReturnDate,
+                        k.realreturnamount                          realReturnAmount,
+                        nvl((select nvl(sum(prbl.amount), 0) confirmedamount
+                             from pm_return_banktrans_link prbl,
+                                  (select pr.id
+                                   from pm_return pr
+                                   where pr.statusid = 1
+                                   union all
+                                   select pt.id
+                                   from PM_DEPOSIT pt
+                                   where pt.statusid = 1) p
+                             where prbl.pmreturnid = p.id
+                               and prbl.bptransid = k.id
+                               and prbl.statusid = 1
+                               and p.id != #{returnId} ),
+	      0) confirmedamount
+                 from PM_RETURN_ACCOUNTTRANS_LINK k
+                 where k.id = #{linkId}) ak
+    </select>
+
+    <!-- 查询流水关联的回收单,EBS状态为保存或者拒绝 -->
+    <select id="queryPmReturnThinEbsStatusList"
+            resultType="com.iss.itreasury.projectmanagement.pmreturn.entity.PmReturn">
+        select pn.*
+        from pm_return pn,
+             pm_return_banktrans_link pk
+        where pn.id = pk.pmreturnid
+          and pn.applytype = pk.applytype
+          and pk.statusid = 1
+          and pn.statusid = 1
+          and nvl(pn.ebsapprovestatus, 1) in (1, 3)
+          and pk.bptransId = #{linkId}
+    </select>
+
+    <!-- 查询流水关联的上存单,EBS状态为保存或者拒绝 -->
+    <select id="queryPmDepositEbsStatusList"
+            resultType="com.iss.itreasury.projectmanagement.pmdeposit.pmdeposit.entity.PmDeposit">
+        select pt.*
+        from PM_DEPOSIT pt,
+             pm_return_banktrans_link pk
+        where pt.id = pk.pmreturnid
+          and pt.applytype = pk.applytype
+          and pk.statusid = 1
+          and pt.statusid = 1
+          and nvl(pt.ebsapprovestatus, 1) in (1, 3)
+          and pk.bptransId = #{linkId}
+    </select>
+
+    <!-- 根据回收单ID查询回收流水 -->
+    <select id="queryPMReturnBanktransLinkByPMReturnId"
+            resultType="com.iss.itreasury.projectmanagement.pmreturn.entity.PmReturnBankTransRelation">
+        select *
+        from PM_RETURN_BANKTRANS_LINK prbl
+        where prbl.pmreturnid = #{pmReturnId}
+          and prbl.statusid = 1
+    </select>
+</mapper>

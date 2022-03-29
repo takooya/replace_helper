@@ -1,0 +1,58 @@
+POST http://localhost:609/git/projectid
+Content-Type: application/json
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+
+{
+  "path": "spring-jck/jck-com-service-quartz"
+}
+
+> {% client.global.set("projectid", response.body.data.id); %}
+
+### http://10.133.80.184/api/v4/projects/{{id}}/repository/files/pom%2Exml?ref=master
+POST http://localhost:609/git/content
+Content-Type: application/json
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+projectid: {{projectid}}
+
+{
+  "path": "pom.xml",
+  "branch": "master"
+}
+
+###
+POST http://localhost:609/git/info
+Content-Type: application/json
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+projectid: {{projectid}}
+
+{
+  "path": "pom.xml",
+  "branch": "master"
+}
+
+###
+POST http://localhost:609/git/loop
+Content-Type: application/json
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+projectid: {{projectid}}
+
+{
+  "branch": "dev"
+}
+
+###
+POST http://localhost:609/git/loopByCondition
+Content-Type: application/json
+githost: 10.133.80.184
+token: ZyqQx8s-app1sKuAYnND
+projectid: {{projectid}}
+
+{
+  "branch": "dev"
+}
+
+###
