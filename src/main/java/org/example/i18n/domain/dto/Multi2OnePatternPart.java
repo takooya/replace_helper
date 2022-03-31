@@ -1,8 +1,8 @@
 package org.example.i18n.domain.dto;
 
 import cn.hutool.core.collection.CollUtil;
-import lombok.Getter;
 import lombok.experimental.Accessors;
+import org.example.i18n.utils.rowformat.DealInfo;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,13 +15,21 @@ import java.util.Map;
  * @since 2022/1/4 12:56
  */
 @Accessors(chain = true)
-public class Multi2OnePatternDto {
-    public Multi2OnePatternDto() {
+public class Multi2OnePatternPart {
+
+    /**
+     * 记录匹配行
+     * key: 1,2,3
+     * value: 匹配到的实际数据
+     */
+    private Map<Integer, DealInfo> recordLines;
+
+    public Multi2OnePatternPart() {
         this.recordLines = new HashMap<>();
     }
 
     @SuppressWarnings("UnusedReturnValue")
-    public Multi2OnePatternDto clean() {
+    public Multi2OnePatternPart clean() {
         this.recordLines.clear();
         return this;
     }
@@ -30,14 +38,7 @@ public class Multi2OnePatternDto {
         return recordLines.isEmpty();
     }
 
-    /**
-     * 记录匹配行
-     * key: 1,2,3
-     * value: 匹配到的实际数据
-     */
-    private Map<Integer, String> recordLines;
-
-    public void addRecordLine(int key, String value) {
+    public void addRecordLine(int key, DealInfo value) {
         if (this.recordLines == null) {
             this.recordLines = new HashMap<>();
         }
@@ -48,7 +49,7 @@ public class Multi2OnePatternDto {
         return CollUtil.size(this.recordLines);
     }
 
-    public Collection<String> values() {
+    public Collection<DealInfo> values() {
         return this.recordLines.values();
     }
 }

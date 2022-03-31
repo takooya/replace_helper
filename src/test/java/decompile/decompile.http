@@ -5,7 +5,7 @@ Content-Type: application/json
   "source": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\jad_decompile\\itms_cinda"
 }
 
-### 反编译文件Format fileTypeFilters
+### 反编译文件Format
 POST http://localhost:609/decompile/old2new
 Content-Type: application/json
 
@@ -15,6 +15,20 @@ Content-Type: application/json
   "filtersType": "properties,xml",
   "regExpMap": {
     "String ([a-zA-Z]+)\\[\\]": "String[] $1",
+    "abcedfg": "abcedfg"
+  }
+}
+
+### 反编译文件Format
+POST http://localhost:609/decompile/old2new
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "filtersType": "properties,xml",
+  "regExpMap": {
+    "final protected static": "protected static final",
     "abcedfg": "abcedfg"
   }
 }
@@ -41,21 +55,6 @@ Content-Type: application/json
   "regExpMap": {
     "abcedfg": "abcedfg"
   }
-}
-
-### 多行table注解变一行
-POST http://localhost:609/decompile/multiLine2single
-Content-Type: application/json
-
-{
-  "check": true,
-  "sourcePath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
-  "sourceRegExp": {
-    "1": "@Table\\(",
-    "2": "name = \"(\\S+)\"",
-    "3": "\\)"
-  },
-  "targetRegExp": "@Table(name = \"$1\")"
 }
 
 ### 多行RequestMapping注解变一行
@@ -118,6 +117,18 @@ Content-Type: application/json
   "appendStr": "this."
 }
 
+### 泛型增加
+POST http://localhost:609/decompile/appendStr
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "targetsPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "targetsType": "java",
+  "appendStr": "<\\S+>"
+}
+
 ### 增加尾行注释
 POST http://localhost:609/decompile/appendLineComment
 Content-Type: application/json
@@ -127,5 +138,27 @@ Content-Type: application/json
   "targetsPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
   "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
   "targetsType": "java",
-  "appendStr": "aaaaaaaaaaaaaa"
+  "appendRegStr": "aaaaaaaaaaaaaa"
+}
+
+### 去除空行
+POST http://localhost:609/decompile/removeEmptyLine
+Content-Type: application/json
+
+{
+  "check": true,
+  "equalType": "EQUAL",
+  "codeType": "REMOVE_BLANK",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "targetsType": "java"
+}
+
+### 去除空行
+POST http://localhost:609/decompile/removeEmptyLine
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
+  "targetsType": "java"
 }

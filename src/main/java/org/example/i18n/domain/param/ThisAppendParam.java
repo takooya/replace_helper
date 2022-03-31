@@ -1,19 +1,13 @@
 package org.example.i18n.domain.param;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.example.i18n.domain.bases.CommonLoopBase;
-import org.example.i18n.domain.bases.ReplaceInfo;
-import org.example.i18n.domain.bases.TypeFilterRule;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 循环文件工具类
@@ -45,7 +39,7 @@ public class ThisAppendParam extends CommonLoopBase {
      * 设置替换表达式
      */
     @NotEmpty(message = "待匹配添加的字符串不可以为空")
-    private String appendStr;
+    private String appendRegStr;
     /**
      * 中间变量
      */

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class CompareAndSetController {
 
     /**
-     * 添加注释
+     * 添加注释,此方法并不准确,谨慎使用
      *
      * @param param 循环文件工具类
      * @return 修改位置与内容 或 修改条数

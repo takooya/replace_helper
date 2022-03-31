@@ -7,15 +7,19 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.map.SingletonMap;
+import org.example.i18n.domain.bases.ReplaceInfo;
+import org.example.i18n.domain.dto.Multi2OnePatternPart;
 import org.example.i18n.domain.param.LoopFile2MapParam;
 import org.example.i18n.domain.param.Multi2OneParam;
-import org.example.i18n.domain.dto.Multi2OnePatternDto;
-import org.example.i18n.domain.bases.ReplaceInfo;
+import org.example.i18n.domain.param.OnlySourceParam;
 import org.example.i18n.domain.param.ThisAppendParam;
 import org.example.i18n.exceptions.JumpOutException;
 import org.example.i18n.temp.MainUtil;
 import org.example.i18n.utils.DirectoryUtil;
 import org.example.i18n.utils.ProcessExecutor;
+import org.example.i18n.utils.rowformat.DealInfo;
+import org.example.i18n.utils.rowformat.LineUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -166,47 +170,34 @@ public class DecompileController {
             }
             // 读取出目标文件行数据
             List<String> info = FileUtil.readLines(source, StandardCharsets.UTF_8);
+            Map<Integer, SingletonMap<String, String>> infoMap = param.getCodeType().deal(info);
             // 修改后的目标文件行数据
             List<String> afterUpdateAll = new ArrayList<>();
-            boolean longMark = false;
-            for (String row : info) {
+            for (Integer rowNum : infoMap.keySet()) {
+                String row = infoMap.get(rowNum).getKey();
+                String value = infoMap.get(rowNum).getValue();
+                String trimValue = value.trim();
                 String result;
-                String trimRow = row.trim();
-                if (StrUtil.isBlankOrUndefined(trimRow)) {
+                if (StrUtil.isBlank(trimValue)) {
                     afterUpdateAll.add(row);
                     continue;
                 }
-                // 如果以/*开始,但并未以*/结束的代码段
-                if (longMark || trimRow.startsWith("/*")) {
-                    longMark = !(trimRow.contains("*/"));
-                    afterUpdateAll.add(row);
-                    continue;
-                }
-                // 如果以//开始
-                if (trimRow.startsWith("//")) {
-                    afterUpdateAll.add(row);
-                    continue;
-                }
-                int i = trimRow.indexOf("//");
-                String comment = null;
-                if (i != -1) {
-                    String tempRow = trimRow;
-                    trimRow = tempRow.substring(0, i);
-                    comment = tempRow.substring(i);
-                }
-                String finalTrimRow = trimRow;
+                DealInfo rowComment = LineUtil.getRowComment(row);
+                String comment = rowComment.getDealed();
                 // 2# regExpMap
                 // 判断key(正则表达式)是否匹配,如果匹配,按value替换
                 Map<String, String> regExpMap = allInfo.getRegExpMap();
                 Optional<String> any = regExpMap.keySet().stream().filter(s -> {
                     Pattern compile = Pattern.compile(s);
-                    Matcher matcher = compile.matcher(finalTrimRow);
-                    return matcher.find();
+                    Matcher matcher = compile.matcher(trimValue);
+                    return param.getEqualType().match(matcher);
                 }).findAny();
                 if (any.isPresent()) {
+                    String matchExp = any.get();
+                    String replaceExp = regExpMap.get(matchExp);
                     // 被正则表达式匹配到,按正则匹配修改
-                    result = ReUtil.replaceAll(trimRow, any.get(), regExpMap.get(any.get()));
-                    result = comment == null ? result : result + comment;
+                    result = ReUtil.replaceAll(trimValue, matchExp, replaceExp);
+                    result = result + comment;
                     // 记录当前文件名,修改前行数据,修改后行数据
                     param.addReplaceInfo(new ReplaceInfo(allInfo.getSourcesPath(), row, result));
                 } else {
@@ -333,25 +324,36 @@ public class DecompileController {
         // 删除文件计数器
         AtomicInteger rowCount = new AtomicInteger();
         DirectoryUtil.loopFiles(source, file -> {
+            // 文件行
             List<String> lines = FileUtil.readLines(file, StandardCharsets.UTF_8);
+            // 解析后的文件行信息
+            Map<Integer, SingletonMap<String, String>> allInfo = param.getCodeType().deal(lines);
+            // 正则匹配表达式列表
             Map<String, String> sourceRegExpMap = param.getSourceRegExp();
+            // 正则替换表达式
             String targetRegExp = param.getTargetRegExp();
-            Multi2OnePatternDto matchTempRecord = new Multi2OnePatternDto();
+            // 一组正则匹配对象信息
+            Multi2OnePatternPart matchTempRecord = new Multi2OnePatternPart();
+            // 新数据行
             List<String> newFileLines = new ArrayList<>();
             boolean matched = false;
             // 第一次遍历,获取匹配数据
-            for (String line : lines) {
+            for (Integer rowNum : allInfo.keySet()) {
+                SingletonMap<String, String> rowInfo = allInfo.get(rowNum);
+                String origin = rowInfo.getKey();
+                String dealRow = rowInfo.getValue();
+
                 String firstReg = sourceRegExpMap.get("1");
                 Pattern firstPattern = Pattern.compile(firstReg);
-                Matcher firstMatcher = firstPattern.matcher(line.trim());
+                Matcher firstMatcher = firstPattern.matcher(dealRow);
                 if (matchTempRecord.isEmpty()) {
                     // 上一行没有匹配过
                     if (!firstMatcher.matches()) {
                         // 第一行没有匹配
-                        newFileLines.add(line);
+                        newFileLines.add(origin);
                     } else {
                         // 第一行匹配
-                        matchTempRecord.addRecordLine(1, line);
+                        matchTempRecord.addRecordLine(1, new DealInfo(origin, dealRow));
                         // 本文件是否被匹配过
                         matched = true;
                     }
@@ -362,40 +364,45 @@ public class DecompileController {
                     if (regLineindex <= sourceRegExpMap.size()) {
                         String regString = sourceRegExpMap.get(String.valueOf(regLineindex));
                         Pattern regPattern = Pattern.compile(regString);
-                        Matcher regMatcher = regPattern.matcher(line.trim());
-                        matchline = regMatcher.matches();
+                        Matcher regMatcher = regPattern.matcher(origin.trim());
+                        matchline = param.getEqualType().match(regMatcher);
                     }
                     if (matchline) {
                         // 上一行匹配,当前行再次匹配
-                        matchTempRecord.addRecordLine(regLineindex, line);
+                        matchTempRecord.addRecordLine(regLineindex, new DealInfo(origin, dealRow));
                     } else {
                         // 上一行匹配,当前行不匹配
-                        Collection<String> matchLines = matchTempRecord.values();
+                        Collection<DealInfo> matchLines = matchTempRecord.values();
                         Collection<String> regExps = sourceRegExpMap.values();
                         if (matchLines.size() != regExps.size()) {
                             log.info("[-DecompileController:multiLine2single-]部分匹配,数据舍弃:{}", matchLines);
-                            newFileLines.addAll(matchLines);
-                            newFileLines.add(line);
+                            List<String> matchOrigins = matchLines.stream().map(DealInfo::getOrigin)
+                                    .collect(Collectors.toList());
+                            List<String> matchDealeds = matchLines.stream().map(DealInfo::getDealed)
+                                    .collect(Collectors.toList());
+                            newFileLines.addAll(matchOrigins);
+                            newFileLines.add(origin);
                             matchTempRecord.clean();
-                            param.addReplaceInfo(file.getAbsolutePath(), new ArrayList<>(matchLines), null, "部分匹配,舍弃匹配数据!");
+                            param.addReplaceInfo(file.getAbsolutePath(), matchDealeds, null, "部分匹配,舍弃匹配数据!");
                             continue;
                         }
                         // 所有行trim后拼接
-                        String allLines = matchLines
+                        List<String> dealedLineList = matchLines
                                 .stream()
-                                .map(String::trim)
-                                .collect(Collectors.joining());
+                                .map((DealInfo t) -> t.getDealed().trim())
+                                .collect(Collectors.toList());
+                        String dealedOneLine = String.join("", dealedLineList);
                         // 所有匹配正则拼接
                         String allRegJoin = String.join("", regExps);
                         // 新的行数据
-                        String newLine = ReUtil.replaceAll(allLines, allRegJoin, targetRegExp);
+                        String newLine = ReUtil.replaceAll(dealedOneLine, allRegJoin, targetRegExp);
                         // 添加新行
                         newFileLines.add(newLine);
                         // 添加当前行
-                        newFileLines.add(line);
+                        newFileLines.add(origin);
                         // 清空匹配对象数据
                         matchTempRecord.clean();
-                        param.addReplaceInfo(file.getAbsolutePath(), new ArrayList<>(matchLines), newLine);
+                        param.addReplaceInfo(file.getAbsolutePath(), dealedLineList, newLine);
                     }
                 }
             }
@@ -440,11 +447,12 @@ public class DecompileController {
             if (pass) {
                 return;
             }
-            String appendStr = param.getAppendStr();
+            String appendStr = param.getAppendRegStr();
             List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
             Map<String, String> locationSources = new HashMap<>();
             for (String row : rowList) {
-                if (!row.contains(appendStr)) {
+                // 不包含关键字段的跳过逻辑处理
+                if (!ReUtil.contains(appendStr, row)) {
                     continue;
                 }
                 String removeStrRow = row.replaceAll(appendStr, "").trim();
@@ -561,13 +569,13 @@ public class DecompileController {
             // 文件变更后的文件行
             List<String> resultRows = targetRows.stream().map(targetRow -> {
                 String comment = null;
-                String result = targetRow;
                 for (String codeKey : trimWithoutCommentMap.keySet()) {
                     if (targetRow.trim().equals(codeKey)) {
                         comment = trimWithoutCommentMap.get(codeKey);
                         break;
                     }
                 }
+                String result = targetRow;
                 if (StrUtil.isNotBlank(comment)) {
                     result = result + comment;
                     // 文件修改标示变更
@@ -594,26 +602,20 @@ public class DecompileController {
 
 
     /**
-     * 根据资源文件和目标文件,将行的尾行注释从资源文件添加到目标文件
-     * * 资源文件包含尾行注释的原文件
-     * * 目标文件不包含包含尾行注释的反编译java文件
+     * 去除目标文件夹下全部文件内的空行
      *
      * @param param check 检查还是修改
      *              sourcesPath 资源路径地址
-     *              targetsPath 目标路径地址
-     *              appendStr 拼接字符串
      *              targetsType 目标类型
      *              filtersType 过滤类型
      * @return 检查结果或替换是否成功
      */
     @RequestMapping("/removeEmptyLine")
-    public List<ReplaceInfo> removeEmptyLine(@Valid @RequestBody ThisAppendParam param) {
+    public List<ReplaceInfo> removeEmptyLine(@Valid @RequestBody OnlySourceParam param) {
         // 获取资源路径
         String sourcesPath = param.getSourcesPath();
         // 获取资源文件夹
         File sources = MainUtil.checkAndGetFile(sourcesPath);
-        param.setSources(sources);
-
         // 变更计数
         AtomicInteger changeCount = new AtomicInteger();
         DirectoryUtil.loopFiles(sources, sourceFile -> {
@@ -622,63 +624,20 @@ public class DecompileController {
                 return;
             }
             List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
-            Map<String, String> trimWithoutCommentMap = new HashMap<>();
-            for (String row : rowList) {
-                if (!row.trim().contains("//")) {
-                    continue;
-                }
-                if (row.trim().startsWith("//")) {
-                    continue;
-                }
-                String code = row.trim().substring(0, row.trim().indexOf("//"));
-                String comment = row.trim().substring(row.trim().indexOf("//"));
-                trimWithoutCommentMap.put(code, comment);
+
+            List<String> withoutEmptyLines = rowList.stream()
+                    .filter(s -> StrUtil.isNotBlank(s.trim()))
+                    .collect(Collectors.toList());
+            int emptyLineCount = rowList.size() - withoutEmptyLines.size();
+            if (emptyLineCount != 0) {
+                changeCount.incrementAndGet();
             }
-            String sourcePath = sourceFile.getAbsolutePath();
-            String targetPath = sourcePath.replace(param.getSourcesPath(), param.getTargetsPath());
-            File targetFile = new File(targetPath);
-            if (!targetFile.exists()) {
-                log.warn("[-DecompileController:accept-]目标文件不存在:{}", targetPath);
-                param.addReplaceInfo(targetPath, "目标文件不存在");
-                return;
-            }
-            // 读取文件
-            List<String> targetRows = FileUtil.readLines(targetFile, StandardCharsets.UTF_8);
-            // 文件变更标识
-            AtomicBoolean fileChangeFlag = new AtomicBoolean(false);
-            // 文件变更后的文件行
-            List<String> resultRows = targetRows.stream().map(targetRow -> {
-                String comment = null;
-                String result = targetRow;
-                for (String codeKey : trimWithoutCommentMap.keySet()) {
-                    if (targetRow.trim().equals(codeKey)) {
-                        comment = trimWithoutCommentMap.get(codeKey);
-                        break;
-                    }
-                }
-                if (StrUtil.isNotBlank(comment)) {
-                    result = result + comment;
-                    // 文件修改标示变更
-                    fileChangeFlag.set(true);
-                    // 文件夹变更计数
-                    changeCount.getAndIncrement();
-                    // check结果拼装
-                    param.addReplaceInfo(targetPath, result);
-                }
-                return result;
-            }).collect(Collectors.toList());
-            if (fileChangeFlag.get()) {
-                if (!param.isCheck()) {
-                    FileUtil.writeLines(resultRows, targetFile, StandardCharsets.UTF_8, false);
-                }
+            param.addReplaceInfo(sourceFile.getAbsolutePath(), "共计空行" + emptyLineCount);
+            if (!param.isCheck()) {
+                FileUtil.writeLines(withoutEmptyLines, sourceFile, StandardCharsets.UTF_8);
             }
         });
-        if (param.isCheck()) {
-            return param.getReplaceInfos();
-        } else {
-            throw new JumpOutException("文件变更计数,共计:" + changeCount.get(), 200);
-        }
+        param.addReplaceInfo(sourcesPath, "总结: 文件变更计数,共计:" + changeCount.get());
+        return param.getReplaceInfos();
     }
-
-
 }
