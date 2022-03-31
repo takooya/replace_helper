@@ -123,6 +123,8 @@ Content-Type: application/json
 
 {
   "check": true,
+  "codeType": "KEEP_ORIGIN",
+  "equalType": "EQUAL",
   "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
   "targetsPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
   "targetsType": "java",

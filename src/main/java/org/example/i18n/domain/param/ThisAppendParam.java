@@ -3,6 +3,7 @@ package org.example.i18n.domain.param;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.example.i18n.domain.bases.CommonCompareBase;
 import org.example.i18n.domain.bases.CommonLoopBase;
 
 import javax.validation.constraints.NotBlank;
@@ -18,7 +19,7 @@ import java.io.File;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class ThisAppendParam extends CommonLoopBase {
+public class ThisAppendParam extends CommonCompareBase {
     /**
      * 入参
      * 检查还是改写

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -450,19 +451,25 @@ public class DecompileController {
             }
             String appendStr = param.getAppendRegStr();
             List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
-            Map<String, String> locationSources = new HashMap<>(rowList.size());
-            for (String row : rowList) {
+            Map<Integer, DealRowInfo> sourceRowMap = param.getCodeType().deal(rowList);
+            Map<String, DealRowInfo> dealedShortFocusMap = new HashMap<>(rowList.size());
+            for (Integer rowNum : sourceRowMap.keySet()) {
                 // 不包含关键字段的跳过逻辑处理
-                if (!ReUtil.contains(appendStr, row)) {
+                String dealedRow = sourceRowMap.get(rowNum).getDealed();
+                if (!ReUtil.contains(appendStr, dealedRow)) {
                     continue;
                 }
-                String removeStrRow = row.replaceAll(appendStr, "").trim();
-                String remove = locationSources.get(removeStrRow);
-                if (StrUtil.isEmpty(remove)) {
-                    locationSources.put(removeStrRow, row);
+                String dealedShortRow = dealedRow.replaceAll(appendStr, "").trim();
+                if (!dealedShortFocusMap.containsKey(dealedShortRow)) {
+                    dealedShortFocusMap.put(dealedShortRow, sourceRowMap.get(rowNum));
+                } else {
+                    if (!dealedShortFocusMap.get(dealedShortRow).equals(sourceRowMap.get(rowNum))) {
+                        param.addReplaceInfo(sourceFile.getAbsolutePath(), "同一文件内,不同行在进行关键字排除后相同,但是原语句不同!");
+                        return;
+                    }
                 }
             }
-            Set<String> locationKeys = locationSources.keySet();
+            Set<String> dealedShortSources = dealedShortFocusMap.keySet();
             String sourcePath = sourceFile.getAbsolutePath();
             String targetPath = sourcePath.replace(param.getSourcesPath(), param.getTargetsPath());
             File targetFile = new File(targetPath);
@@ -472,26 +479,39 @@ public class DecompileController {
             }
             // 读取文件
             List<String> targetRows = FileUtil.readLines(targetFile, StandardCharsets.UTF_8);
+            Map<Integer, DealRowInfo> targetRowMap = param.getCodeType().deal(targetRows);
             AtomicBoolean changeFlag = new AtomicBoolean(false);
             // 文件变更后的文件行
-            List<String> resultRows = targetRows.stream().map(targetRow -> {
-                String targetLocation = null;
-                String result = targetRow;
-                for (String locationKey : locationKeys) {
-                    if (targetRow.trim().contains(locationKey)) {
-                        targetLocation = locationKey;
-                        break;
-                    }
-                }
-                if (StrUtil.isNotBlank(targetLocation)) {
-                    boolean containsComment = targetRow.contains("//");
-                    if (containsComment) {
-                        int commentIndex = targetRow.indexOf("//");
-                        String comment = targetRow.substring(commentIndex);
-                        result = locationSources.get(targetLocation) + comment;
+            List<String> resultRows = targetRowMap.keySet().stream().map(rowNum -> {
+                // 目标文件行信息
+                DealRowInfo targetRow = targetRowMap.get(rowNum);
+                // 目标文件处理后的行信息
+                String dealedTargetRow = targetRow.getDealed().trim();
+                String result;
+                if (StrUtil.isBlank(dealedTargetRow)) {
+                    // 如果是空行,不处理
+                    result = targetRow.getOrigin();
+                } else if (dealedTargetRow.contains("//")) {
+                    DealRowInfo sourceRowInfo = dealedShortFocusMap.get(dealedTargetRow);
+                    // 资源文件与匹配文件注释相同
+                    if (Objects.equals(targetRow.onlyComment().trim(), sourceRowInfo.onlyComment().trim())) {
+                        // 匹配到和资源文件一致的语句,直接返回资源文件的语句
+                        result = dealedShortFocusMap.get(dealedTargetRow).getOrigin();
                     } else {
-                        result = locationSources.get(targetLocation);
+                        // 资源文件与匹配文件注释不相同
+                        result = targetRow.getOrigin();
+                        param.addReplaceInfo(
+                                targetPath,
+                                Collections.singletonList(targetRow.getOrigin()),
+                                sourceRowInfo.getOrigin(),
+                                "当前行含有注释,暂不处理");
                     }
+                } else if (!dealedShortSources.contains(dealedTargetRow)) {
+                    // 没有匹配到和资源文件一致的语句
+                    result = targetRow.getOrigin();
+                } else {
+                    // 匹配到和资源文件一致的语句,直接返回资源文件的语句
+                    result = dealedShortFocusMap.get(dealedTargetRow).getOrigin();
                     // 修改标示变更
                     changeFlag.set(true);
                     // 变更计数

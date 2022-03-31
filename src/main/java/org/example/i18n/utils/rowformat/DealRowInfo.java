@@ -19,4 +19,22 @@ public class DealRowInfo {
         return LineUtil.getRowComment(dealed).getDealed().trim();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        DealRowInfo that = (DealRowInfo) o;
+
+        return origin.equals(that.origin);
+    }
+
+    @Override
+    public int hashCode() {
+        return origin.hashCode();
+    }
 }
