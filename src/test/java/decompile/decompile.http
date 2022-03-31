@@ -126,7 +126,7 @@ Content-Type: application/json
   "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
   "targetsPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
   "targetsType": "java",
-  "appendStr": "<\\S+>"
+  "appendRegStr": "<\\S+>"
 }
 
 ### 增加尾行注释
@@ -148,7 +148,7 @@ Content-Type: application/json
 {
   "check": true,
   "equalType": "EQUAL",
-  "codeType": "REMOVE_BLANK",
+  "codeType": "KEEP_ORIGIN",
   "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
   "targetsType": "java"
 }
@@ -159,6 +159,8 @@ Content-Type: application/json
 
 {
   "check": true,
+  "equalType": "EQUAL",
+  "codeType": "KEEP_ORIGIN",
   "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes\\com",
   "targetsType": "java"
 }

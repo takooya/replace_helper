@@ -2,7 +2,7 @@ package org.example.i18n.domain.dto;
 
 import cn.hutool.core.collection.CollUtil;
 import lombok.experimental.Accessors;
-import org.example.i18n.utils.rowformat.DealInfo;
+import org.example.i18n.utils.rowformat.DealRowInfo;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class Multi2OnePatternPart {
      * key: 1,2,3
      * value: 匹配到的实际数据
      */
-    private Map<Integer, DealInfo> recordLines;
+    private Map<Integer, DealRowInfo> recordLines;
 
     public Multi2OnePatternPart() {
         this.recordLines = new HashMap<>();
@@ -38,7 +38,7 @@ public class Multi2OnePatternPart {
         return recordLines.isEmpty();
     }
 
-    public void addRecordLine(int key, DealInfo value) {
+    public void addRecordLine(int key, DealRowInfo value) {
         if (this.recordLines == null) {
             this.recordLines = new HashMap<>();
         }
@@ -49,7 +49,7 @@ public class Multi2OnePatternPart {
         return CollUtil.size(this.recordLines);
     }
 
-    public Collection<DealInfo> values() {
+    public Collection<DealRowInfo> values() {
         return this.recordLines.values();
     }
 }

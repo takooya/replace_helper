@@ -7,7 +7,6 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.map.SingletonMap;
 import org.example.i18n.domain.bases.ReplaceInfo;
 import org.example.i18n.domain.dto.Multi2OnePatternPart;
 import org.example.i18n.domain.param.LoopFile2MapParam;
@@ -18,7 +17,8 @@ import org.example.i18n.exceptions.JumpOutException;
 import org.example.i18n.temp.MainUtil;
 import org.example.i18n.utils.DirectoryUtil;
 import org.example.i18n.utils.ProcessExecutor;
-import org.example.i18n.utils.rowformat.DealInfo;
+import org.example.i18n.utils.rowformat.CodeTypeEnum;
+import org.example.i18n.utils.rowformat.DealRowInfo;
 import org.example.i18n.utils.rowformat.LineUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -170,19 +171,19 @@ public class DecompileController {
             }
             // 读取出目标文件行数据
             List<String> info = FileUtil.readLines(source, StandardCharsets.UTF_8);
-            Map<Integer, SingletonMap<String, String>> infoMap = param.getCodeType().deal(info);
+            Map<Integer, DealRowInfo> infoMap = param.getCodeType().deal(info);
             // 修改后的目标文件行数据
             List<String> afterUpdateAll = new ArrayList<>();
             for (Integer rowNum : infoMap.keySet()) {
-                String row = infoMap.get(rowNum).getKey();
-                String value = infoMap.get(rowNum).getValue();
+                String row = infoMap.get(rowNum).getOrigin();
+                String value = infoMap.get(rowNum).getDealed();
                 String trimValue = value.trim();
                 String result;
                 if (StrUtil.isBlank(trimValue)) {
                     afterUpdateAll.add(row);
                     continue;
                 }
-                DealInfo rowComment = LineUtil.getRowComment(row);
+                DealRowInfo rowComment = LineUtil.getRowComment(row);
                 String comment = rowComment.getDealed();
                 // 2# regExpMap
                 // 判断key(正则表达式)是否匹配,如果匹配,按value替换
@@ -327,7 +328,7 @@ public class DecompileController {
             // 文件行
             List<String> lines = FileUtil.readLines(file, StandardCharsets.UTF_8);
             // 解析后的文件行信息
-            Map<Integer, SingletonMap<String, String>> allInfo = param.getCodeType().deal(lines);
+            Map<Integer, DealRowInfo> allInfo = param.getCodeType().deal(lines);
             // 正则匹配表达式列表
             Map<String, String> sourceRegExpMap = param.getSourceRegExp();
             // 正则替换表达式
@@ -339,9 +340,9 @@ public class DecompileController {
             boolean matched = false;
             // 第一次遍历,获取匹配数据
             for (Integer rowNum : allInfo.keySet()) {
-                SingletonMap<String, String> rowInfo = allInfo.get(rowNum);
-                String origin = rowInfo.getKey();
-                String dealRow = rowInfo.getValue();
+                DealRowInfo rowInfo = allInfo.get(rowNum);
+                String origin = rowInfo.getOrigin();
+                String dealRow = rowInfo.getDealed();
 
                 String firstReg = sourceRegExpMap.get("1");
                 Pattern firstPattern = Pattern.compile(firstReg);
@@ -353,7 +354,7 @@ public class DecompileController {
                         newFileLines.add(origin);
                     } else {
                         // 第一行匹配
-                        matchTempRecord.addRecordLine(1, new DealInfo(origin, dealRow));
+                        matchTempRecord.addRecordLine(1, new DealRowInfo(origin, dealRow));
                         // 本文件是否被匹配过
                         matched = true;
                     }
@@ -369,16 +370,16 @@ public class DecompileController {
                     }
                     if (matchline) {
                         // 上一行匹配,当前行再次匹配
-                        matchTempRecord.addRecordLine(regLineindex, new DealInfo(origin, dealRow));
+                        matchTempRecord.addRecordLine(regLineindex, new DealRowInfo(origin, dealRow));
                     } else {
                         // 上一行匹配,当前行不匹配
-                        Collection<DealInfo> matchLines = matchTempRecord.values();
+                        Collection<DealRowInfo> matchLines = matchTempRecord.values();
                         Collection<String> regExps = sourceRegExpMap.values();
                         if (matchLines.size() != regExps.size()) {
                             log.info("[-DecompileController:multiLine2single-]部分匹配,数据舍弃:{}", matchLines);
-                            List<String> matchOrigins = matchLines.stream().map(DealInfo::getOrigin)
+                            List<String> matchOrigins = matchLines.stream().map(DealRowInfo::getOrigin)
                                     .collect(Collectors.toList());
-                            List<String> matchDealeds = matchLines.stream().map(DealInfo::getDealed)
+                            List<String> matchDealeds = matchLines.stream().map(DealRowInfo::getDealed)
                                     .collect(Collectors.toList());
                             newFileLines.addAll(matchOrigins);
                             newFileLines.add(origin);
@@ -389,7 +390,7 @@ public class DecompileController {
                         // 所有行trim后拼接
                         List<String> dealedLineList = matchLines
                                 .stream()
-                                .map((DealInfo t) -> t.getDealed().trim())
+                                .map((DealRowInfo t) -> t.getDealed().trim())
                                 .collect(Collectors.toList());
                         String dealedOneLine = String.join("", dealedLineList);
                         // 所有匹配正则拼接
@@ -449,7 +450,7 @@ public class DecompileController {
             }
             String appendStr = param.getAppendRegStr();
             List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
-            Map<String, String> locationSources = new HashMap<>();
+            Map<String, String> locationSources = new HashMap<>(rowList.size());
             for (String row : rowList) {
                 // 不包含关键字段的跳过逻辑处理
                 if (!ReUtil.contains(appendStr, row)) {
@@ -542,18 +543,7 @@ public class DecompileController {
                 return;
             }
             List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
-            Map<String, String> trimWithoutCommentMap = new HashMap<>();
-            for (String row : rowList) {
-                if (!row.trim().contains("//")) {
-                    continue;
-                }
-                if (row.trim().startsWith("//")) {
-                    continue;
-                }
-                String code = row.trim().substring(0, row.trim().indexOf("//"));
-                String comment = row.trim().substring(row.trim().indexOf("//"));
-                trimWithoutCommentMap.put(code, comment);
-            }
+            Map<Integer, DealRowInfo> dealMap = CodeTypeEnum.REMOVE_BLOCK.deal(rowList);
             String sourcePath = sourceFile.getAbsolutePath();
             String targetPath = sourcePath.replace(param.getSourcesPath(), param.getTargetsPath());
             File targetFile = new File(targetPath);
@@ -569,9 +559,9 @@ public class DecompileController {
             // 文件变更后的文件行
             List<String> resultRows = targetRows.stream().map(targetRow -> {
                 String comment = null;
-                for (String codeKey : trimWithoutCommentMap.keySet()) {
-                    if (targetRow.trim().equals(codeKey)) {
-                        comment = trimWithoutCommentMap.get(codeKey);
+                for (DealRowInfo dealRowInfo : dealMap.values()) {
+                    if (Objects.equals(targetRow.trim(), dealRowInfo.onlyCode())) {
+                        comment = dealRowInfo.onlyComment();
                         break;
                     }
                 }
@@ -600,7 +590,6 @@ public class DecompileController {
         }
     }
 
-
     /**
      * 去除目标文件夹下全部文件内的空行
      *
@@ -624,9 +613,10 @@ public class DecompileController {
                 return;
             }
             List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
-
-            List<String> withoutEmptyLines = rowList.stream()
-                    .filter(s -> StrUtil.isNotBlank(s.trim()))
+            Map<Integer, DealRowInfo> dealMap = param.getCodeType().deal(rowList);
+            List<String> withoutEmptyLines = dealMap.values().stream()
+                    .filter(dealInfo -> StrUtil.isNotBlank(dealInfo.getDealed()))
+                    .map(DealRowInfo::getOrigin)
                     .collect(Collectors.toList());
             int emptyLineCount = rowList.size() - withoutEmptyLines.size();
             if (emptyLineCount != 0) {

@@ -1,15 +1,14 @@
 package org.example.i18n.utils.rowformat;
 
 import cn.hutool.core.util.StrUtil;
-import org.apache.commons.collections4.map.SingletonMap;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BlockUtil {
-    public static Map<Integer, SingletonMap<String, String>> removeBlock(List<String> source) {
-        Map<Integer, SingletonMap<String, String>> results = new HashMap<>(source.size());
+    public static Map<Integer, DealRowInfo> removeBlock(List<String> source) {
+        Map<Integer, DealRowInfo> results = new HashMap<>(source.size());
         boolean isBlock = false;
         for (int i = 1; i <= source.size(); i++) {
             String s = source.get(i - 1);
@@ -56,31 +55,21 @@ public class BlockUtil {
             }
             // 不在块注释内
             if (!isBlock) {
-                results.put(i, new SingletonMap<>(s, s));
+                results.put(i, new DealRowInfo(s, s));
             } else {
-                results.put(i, new SingletonMap<>(s, result));
+                if (result == null) {
+                    result = "";
+                }
+                results.put(i, new DealRowInfo(s, StrUtil.nullToDefault(result,"")));
             }
         }
         return results;
     }
 
-    public static Map<Integer, SingletonMap<String, String>> keepBlock(List<String> source) {
-        Map<Integer, SingletonMap<String, String>> results = new HashMap<>(source.size());
-        for (int i = 1; i <= source.size(); i++) {
-            String s = source.get(i - 1);
-            results.put(i, new SingletonMap<>(s, s));
+    public static Map<Integer, DealRowInfo> deal(List<String> source, CodeTypeEnum codeType) {
+        if (codeType == CodeTypeEnum.REMOVE_BLOCK) {
+            return removeBlock(source);
         }
-        return results;
-    }
-
-    public static Map<Integer, SingletonMap<String, String>> deal(List<String> source, CodeTypeEnum codeType) {
-        switch (codeType) {
-            case REMOVE_BLOCK:
-                return removeBlock(source);
-            case KEEP_BLOCK:
-                return keepBlock(source);
-            default:
-                throw new RuntimeException("未处理的逻辑类型");
-        }
+        throw new RuntimeException("未处理的逻辑类型");
     }
 }

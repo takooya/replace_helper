@@ -3,6 +3,7 @@ package org.example.i18n.domain.param;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.example.i18n.domain.bases.CommonCompareBase;
 import org.example.i18n.domain.bases.CommonLoopBase;
 
 import javax.validation.constraints.NotBlank;
@@ -19,7 +20,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class LoopFile2MapParam extends CommonLoopBase {
+public class LoopFile2MapParam extends CommonCompareBase {
     /**
      * 入参
      */
