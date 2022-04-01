@@ -1,0 +1,56 @@
+# 反编译文件位置:C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com
+# svn代码class位置: C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com
+
+### 1.多行RequestMapping注解变一行
+POST http://localhost:609/decompile/multiLine2single
+Content-Type: application/json
+
+{
+  "check": true,
+  "codeType": "REMOVE_BLANK",
+  "equalType": "CONTAIN",
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com",
+  "sourceRegExp": {
+    "1": "@RequestMapping\\(",
+    "2": "value = \\{\"(\\S+)\"\\},",
+    "3": "method = [{]RequestMethod.(POST|GET)[}]",
+    "4": "\\)"
+  },
+  "targetRegExp": "@RequestMapping(value = \"$1\", method = RequestMethod.$2)"
+}
+
+### 2.多行RequestMapping注解变一行
+POST http://localhost:609/decompile/multiLine2single
+Content-Type: application/json
+
+{
+  "check": true,
+  "codeType": "REMOVE_BLANK",
+  "equalType": "EQUAL",
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com",
+  "sourceRegExp": {
+    "1": "@RequestMapping\\(",
+    "2": "value = \\{\"(\\S+)\"\\},",
+    "3": "method = [{]RequestMethod.POST, RequestMethod.GET[}]",
+    "4": "\\)"
+  },
+  "targetRegExp": "@RequestMapping(value = \"$1\", method = {RequestMethod.POST, RequestMethod.GET})"
+}
+
+### 3.多行RequestMapping注解变一行
+POST http://localhost:609/decompile/multiLine2single
+Content-Type: application/json
+
+{
+  "check": true,
+  "codeType": "REMOVE_BLANK",
+  "equalType": "EQUAL",
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com",
+  "sourceRegExp": {
+    "1": "@RequestMapping\\(",
+    "2": "value = \\{\"(\\S+)\"\\},",
+    "3": "method = [{]RequestMethod.GET, RequestMethod.POST[}]",
+    "4": "\\)"
+  },
+  "targetRegExp": "@RequestMapping(value = \"$1\", method = {RequestMethod.GET, RequestMethod.POST})"
+}

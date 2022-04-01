@@ -60,7 +60,7 @@ public class BlockUtil {
                 if (result == null) {
                     result = "";
                 }
-                results.put(i, new DealRowInfo(s, StrUtil.nullToDefault(result,"")));
+                results.put(i, new DealRowInfo(s, StrUtil.nullToDefault(result, "")));
             }
         }
         return results;

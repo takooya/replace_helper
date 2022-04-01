@@ -1,0 +1,20 @@
+# 反编译文件位置: C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com
+# svn代码class位置: C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com
+
+### catch一致性匹配.http
+POST http://localhost:609/decompile/catchVariable
+Content-Type: application/json
+
+{
+  "check": false,
+  "equalType": "EQUAL",
+  "codeType": "REMOVE_COMMENT",
+  "keyMatchReg": "\\} catch \\(Throwable ([a-zA-Z0-9]+)\\) \\{",
+  "similar": 0.85,
+  "blockStartMark": "{",
+  "blockEndMark": "}",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com",
+  "targetsPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com",
+  "targetsType": "java",
+  "appendRegStr": "catch"
+}

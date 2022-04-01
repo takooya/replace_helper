@@ -1,0 +1,19 @@
+# 反编译文件位置:C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com
+# svn代码class位置: C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com
+
+### this.增加
+POST http://localhost:609/decompile/addMethodComment
+Content-Type: application/json
+
+{
+  "check": true,
+  "equalType": "CONTAIN",
+  "codeType": "REMOVE_BLANK",
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com",
+  "targetsPath": "C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com",
+  "blockEndMark": "*/",
+  "blockStartMark": "/*",
+  "limit": 10,
+  "regExp": "(private|public) int \\S+\\(.*\\) \\{",
+  "targetsType": "java"
+}

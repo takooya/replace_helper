@@ -1,0 +1,26 @@
+# 反编译文件位置:C:\Users\Administrator\Desktop\cinda_file\7001_code_update_record\20220323-product_20220314package\multi_dir\idea_decompile\target_com
+# svn代码class位置:C:\Users\Administrator\IdeaProjects\prod_merge\src\com
+
+### 去除空行
+POST http://localhost:609/decompile/removeEmptyLine
+Content-Type: application/json
+
+{
+  "check": true,
+  "equalType": "EQUAL",
+  "codeType": "KEEP_ORIGIN",
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com",
+  "targetsType": "java"
+}
+
+### 去除空行
+POST http://localhost:609/decompile/removeEmptyLine
+Content-Type: application/json
+
+{
+  "check": true,
+  "equalType": "EQUAL",
+  "codeType": "KEEP_ORIGIN",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com",
+  "targetsType": "java"
+}

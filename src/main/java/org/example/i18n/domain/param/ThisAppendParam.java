@@ -22,11 +22,6 @@ import java.io.File;
 public class ThisAppendParam extends CommonCompareBase {
     /**
      * 入参
-     * 检查还是改写
-     */
-    private boolean check;
-    /**
-     * 入参
      */
     @NotBlank(message = "资源地址不可以为空")
     private String sourcesPath;

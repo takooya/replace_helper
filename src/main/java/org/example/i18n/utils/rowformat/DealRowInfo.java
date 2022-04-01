@@ -1,15 +1,26 @@
 package org.example.i18n.utils.rowformat;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class DealRowInfo {
     private String origin;
     private String dealed;
+    private Integer rowNum;
+
+    public DealRowInfo() {
+    }
+
+    public DealRowInfo(String origin, String dealed) {
+        this.origin = origin;
+        this.dealed = dealed;
+    }
+
+    public DealRowInfo(String origin, String dealed, Integer rowNum) {
+        this.origin = origin;
+        this.dealed = dealed;
+        this.rowNum = rowNum;
+    }
 
     public String onlyCode() {
         return LineUtil.removeComment(dealed).getDealed().trim();

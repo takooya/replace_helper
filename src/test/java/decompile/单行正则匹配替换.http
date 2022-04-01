@@ -1,0 +1,62 @@
+# 反编译文件位置:C:\\Users\\Administrator\\Desktop\\cinda_file\\7001_code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\target_com
+# svn代码class位置: C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com
+
+### 反编译文件Format
+POST http://localhost:609/decompile/old2new
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "filtersType": "properties,xml",
+  "regExpMap": {
+    "String ([a-zA-Z]+)\\[\\]": "String[] $1",
+    "abcedfg": "abcedfg"
+  }
+}
+
+### 反编译文件Format
+POST http://localhost:609/decompile/old2new
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\cindabase_v01.0.02_purpose_merge_production\\src\\com",
+  "filtersType": "properties,xml",
+  "regExpMap": {
+    "final protected static": "protected static final",
+    "abcedfg": "abcedfg"
+  }
+}
+
+### 反编译文件Format
+POST http://localhost:609/decompile/old2new
+Content-Type: application/json
+
+{
+  "check": true,
+  "codeType": "REMOVE_COMMENT",
+  "equalType": "CONTAIN",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com",
+  "filtersType": "properties,xml",
+  "regExpMap": {
+    "final protected static": "protected static final",
+    "abcedfg": "abcedfg"
+  }
+}
+
+### 反编译文件Format
+POST http://localhost:609/decompile/old2new
+Content-Type: application/json
+
+{
+  "check": true,
+  "codeType": "REMOVE_COMMENT",
+  "equalType": "CONTAIN",
+  "sourcesPath": "C:\\Users\\Administrator\\IdeaProjects\\prod_merge\\src\\com",
+  "filtersType": "properties,xml",
+  "regExpMap": {
+    "new Batch\\(\\);": "new SqlExecutor.Batch();",
+    "abcedfg": "abcedfg"
+  }
+}

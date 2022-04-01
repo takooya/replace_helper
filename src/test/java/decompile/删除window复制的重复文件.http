@@ -1,0 +1,14 @@
+# 反编译文件位置:C:\Users\Administrator\Desktop\cinda_file\7001_code_update_record\20220323-product_20220314package\multi_dir\idea_decompile\target_com
+# svn代码class位置:C:\Users\Administrator\IdeaProjects\prod_merge\src\com
+
+### 删除重复的文件
+POST http://localhost:609/decompile/delRepeatFile
+Content-Type: application/json
+
+{
+  "check": true,
+  "sourcesPath": "C:\\Users\\Administrator\\Desktop\\cinda_file\\code_update_record\\20220323-product_20220314package\\multi_dir\\idea_decompile\\itms_cinda\\WEB-INF\\classes",
+  "regExpMap": {
+    "abcedfg": "abcedfg"
+  }
+}

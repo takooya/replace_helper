@@ -1,14 +1,18 @@
 package org.example.i18n.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.example.i18n.domain.bases.ReplaceInfo;
 import org.example.i18n.domain.dto.Multi2OnePatternPart;
+import org.example.i18n.domain.param.AddMethodCommentParam;
+import org.example.i18n.domain.param.BlockAppendParam;
 import org.example.i18n.domain.param.LoopFile2MapParam;
 import org.example.i18n.domain.param.Multi2OneParam;
 import org.example.i18n.domain.param.OnlySourceParam;
@@ -17,6 +21,7 @@ import org.example.i18n.exceptions.JumpOutException;
 import org.example.i18n.temp.MainUtil;
 import org.example.i18n.utils.DirectoryUtil;
 import org.example.i18n.utils.ProcessExecutor;
+import org.example.i18n.utils.rowformat.BlockCommentInfo;
 import org.example.i18n.utils.rowformat.CodeTypeEnum;
 import org.example.i18n.utils.rowformat.DealRowInfo;
 import org.example.i18n.utils.rowformat.LineUtil;
@@ -493,8 +498,11 @@ public class DecompileController {
                     result = targetRow.getOrigin();
                 } else if (dealedTargetRow.contains("//")) {
                     DealRowInfo sourceRowInfo = dealedShortFocusMap.get(dealedTargetRow);
-                    // 资源文件与匹配文件注释相同
-                    if (Objects.equals(targetRow.onlyComment().trim(), sourceRowInfo.onlyComment().trim())) {
+                    if (sourceRowInfo == null) {
+                        // 资源文件当前行匹配项为空
+                        result = targetRow.getOrigin();
+                    } else if (Objects.equals(targetRow.onlyComment().trim(), sourceRowInfo.onlyComment().trim())) {
+                        // 资源文件与匹配文件注释相同
                         // 匹配到和资源文件一致的语句,直接返回资源文件的语句
                         result = dealedShortFocusMap.get(dealedTargetRow).getOrigin();
                     } else {
@@ -641,13 +649,222 @@ public class DecompileController {
             int emptyLineCount = rowList.size() - withoutEmptyLines.size();
             if (emptyLineCount != 0) {
                 changeCount.incrementAndGet();
+                param.addReplaceInfo(sourceFile.getAbsolutePath(), "共计空行" + emptyLineCount);
             }
-            param.addReplaceInfo(sourceFile.getAbsolutePath(), "共计空行" + emptyLineCount);
             if (!param.isCheck()) {
                 FileUtil.writeLines(withoutEmptyLines, sourceFile, StandardCharsets.UTF_8);
             }
         });
         param.addReplaceInfo(sourcesPath, "总结: 文件变更计数,共计:" + changeCount.get());
         return param.getReplaceInfos();
+    }
+
+    /**
+     * catch语句中,参数名不一致处理
+     *
+     * @param param check 检查还是修改
+     *              sourcesPath 资源路径地址
+     *              targetsType 目标类型
+     *              filtersType 过滤类型
+     * @return 检查结果或替换是否成功
+     */
+    @RequestMapping("/catchVariable")
+    public List<ReplaceInfo> catchVariable(@Valid @RequestBody BlockAppendParam param) {
+        // 获取资源路径
+        String sourcesPath = param.getSourcesPath();
+        // 获取资源文件夹
+        File sources = MainUtil.checkAndGetFile(sourcesPath);
+        // 变更计数
+        AtomicInteger changeCount = new AtomicInteger();
+        DirectoryUtil.loopFiles(sources, sourceFile -> {
+            boolean pass = param.pass(sourceFile);
+            if (pass) {
+                return;
+            }
+            List<String> sourceRowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
+            Map<Integer, DealRowInfo> sourceDealMap = param.getCodeType().deal(sourceRowList);
+
+            // 记录资源 开始
+            Map<String, List<DealRowInfo>> sourceBlocks = new HashMap<>();
+            List<DealRowInfo> sourceBlock = new ArrayList<>();
+            int blockIncome = -1;
+            // 记录资源
+            for (Integer rowNum : sourceDealMap.keySet()) {
+                // 当计数器清零,则计数器复位
+                if (blockIncome == 0) {
+                    blockIncome = -1;
+                    String allRow = sourceBlock.stream()
+                            .map(dealRowInfo -> dealRowInfo.getOrigin().trim())
+                            .collect(Collectors.joining());
+                    sourceBlocks.put(allRow, new ArrayList<>(sourceBlock));
+                    sourceBlock = new ArrayList<>();
+                }
+                DealRowInfo dealRowInfo = sourceDealMap.get(rowNum);
+                String keyword = param.getAppendRegStr();
+                // 是否在块逻辑内,if: 不在块逻辑内; else: 在块逻辑内
+                if (blockIncome == -1) {
+                    // 判断当前行是否包含关键字或正则
+                    if (ReUtil.contains(keyword, dealRowInfo.getDealed())) {
+                        // 计数器未初始化时,发现定位字符串,则开始计数,数量为开始标签出现次数
+                        blockIncome = StrUtil.count(dealRowInfo.getDealed(), param.getBlockStartMark());
+                        sourceBlock.add(dealRowInfo);
+                    }
+                } else {
+                    blockIncome -= StrUtil.count(dealRowInfo.getDealed(), param.getBlockEndMark());
+                    sourceBlock.add(dealRowInfo);
+                }
+            }
+            // 记录资源 结束
+
+            String sourcePath = sourceFile.getAbsolutePath();
+            String targetPath = sourcePath.replace(sourcesPath, param.getTargetsPath());
+            File targetFile = new File(targetPath);
+            if (!targetFile.exists()) {
+                log.info("[-DecompileController:catchVariable-]不存在对应的java文件:{}", sourcePath);
+                return;
+            }
+
+            List<String> targetRowList = FileUtil.readLines(targetFile, StandardCharsets.UTF_8);
+            Map<Integer, DealRowInfo> targetDealMap = param.getCodeType().deal(targetRowList);
+            Map<Integer, DealRowInfo> targetTempBlock = new HashMap<>();
+            Map<Integer, DealRowInfo> resultDealMap = new HashMap<>();
+            for (Integer rowNum : targetDealMap.keySet()) {
+                if (blockIncome == 0) {
+                    blockIncome = -1;
+                    // todo 这里做匹配逻辑 关键逻辑
+                    String targetBlockKey = targetTempBlock.values().stream()
+                            .map(dealRowInfo -> dealRowInfo.getOrigin().trim())
+                            .collect(Collectors.joining());
+                    for (String sourceBlockKey : sourceBlocks.keySet()) {
+                        String sourceKeyMatchReg = ReUtil.get(param.getKeyMatchReg(), sourceBlockKey, 1);
+                        String targetKeyMatchReg = ReUtil.get(param.getKeyMatchReg(), targetBlockKey, 1);
+                        String dealedTargetBlockKey = ReUtil.replaceAll(targetBlockKey, "([^a-zA-Z^])" + targetKeyMatchReg + "([^a-zA-Z^])", "$1" + sourceKeyMatchReg + "$2");
+                        if (!Objects.equals(sourceKeyMatchReg, targetKeyMatchReg) &&
+                                StrUtil.similar(sourceBlockKey, dealedTargetBlockKey) > param.getSimilar()) {
+                            // 语句相似度大于80%
+                            Map<Integer, DealRowInfo> finalTargetTempBlock = targetTempBlock;
+                            Map<Integer, DealRowInfo> importants = targetTempBlock.keySet().stream()
+                                    .collect(Collectors.toMap(
+                                            tempRowNum -> tempRowNum,
+                                            tempRowNum -> {
+                                                DealRowInfo inBlockRow = finalTargetTempBlock.get(tempRowNum);
+                                                String important = ReUtil.replaceAll(inBlockRow.getOrigin(),
+                                                        "([^a-zA-Z^])" + targetKeyMatchReg + "([^a-zA-Z^])",
+                                                        "$1" + sourceKeyMatchReg + "$2");
+                                                inBlockRow.setOrigin(important);
+                                                return inBlockRow;
+                                            }
+                                    ));
+                            resultDealMap.putAll(importants);
+                            param.addReplaceInfo(targetPath,
+                                    targetTempBlock.values().stream()
+                                            .map(DealRowInfo::getOrigin)
+                                            .collect(Collectors.toList()),
+                                    importants.values().stream()
+                                            .map(DealRowInfo::getOrigin)
+                                            .collect(Collectors.joining("\n")));
+                            changeCount.incrementAndGet();
+                        } else {
+                            resultDealMap.putAll(targetTempBlock);
+                        }
+                    }
+                    targetTempBlock = new HashMap<>();
+                }
+                DealRowInfo targetRowInfo = targetDealMap.get(rowNum);
+                String keyword = param.getAppendRegStr();
+                // 是否在块逻辑内,if: 不在块逻辑内; else: 在块逻辑内
+                if (blockIncome == -1) {
+                    // 判断当前行是否包含关键字或正则
+                    if (ReUtil.contains(keyword, targetRowInfo.getDealed())) {
+                        // 计数器未初始化时,发现定位字符串,则开始计数,数量为开始标签出现次数
+                        blockIncome = StrUtil.count(targetRowInfo.getDealed(), param.getBlockStartMark());
+                        targetTempBlock.put(rowNum, targetRowInfo);
+                    } else {
+                        resultDealMap.put(rowNum, targetRowInfo);
+                    }
+                } else {
+                    blockIncome -= StrUtil.count(targetRowInfo.getDealed(), param.getBlockEndMark());
+                    targetTempBlock.put(rowNum, targetRowInfo);
+                }
+            }
+            if (!param.isCheck()) {
+                List<String> resultRowList = resultDealMap.values().stream()
+                        .map(DealRowInfo::getOrigin)
+                        .collect(Collectors.toList());
+                FileUtil.writeLines(resultRowList, targetFile, StandardCharsets.UTF_8);
+            }
+        });
+        param.addReplaceInfo(sourcesPath, "总结: 文件变更计数,共计:" + changeCount.get());
+        if (param.isCheck()) {
+            return param.getReplaceInfos();
+        } else {
+            throw new JumpOutException("文件处理完成,共计处理" + changeCount.get() + "处代码!", 200);
+        }
+    }
+
+
+    /**
+     * 添加方法注释
+     *
+     * @param param check 检查还是修改
+     *              sourcesPath 资源路径地址
+     *              targetsPath 目标路径地址
+     *              targetsType 目标类型
+     *              filtersType 过滤类型
+     * @return 检查结果或替换是否成功
+     */
+    @RequestMapping("/addMethodComment")
+    public List<JSONObject> addMethodComment(@Valid @RequestBody AddMethodCommentParam param) {
+        // 获取资源路径
+        String sourcesPath = param.getSourcesPath();
+        // 获取资源文件夹
+        File sources = MainUtil.checkAndGetFile(sourcesPath);
+        param.setSources(sources);
+
+        // 变更计数
+        AtomicInteger changeCount = new AtomicInteger();
+        DirectoryUtil.loopFiles(sources, sourceFile -> {
+            if (param.getResults().size() > param.getLimit()) {
+                return;
+            }
+            boolean pass = param.pass(sourceFile);
+            if (pass) {
+                return;
+            }
+            List<String> rowList = FileUtil.readLines(sourceFile, StandardCharsets.UTF_8);
+            Map<Integer, DealRowInfo> sourceDealMap = CodeTypeEnum.REMOVE_BLOCK.deal(rowList);
+            Map<String, Map<Integer, DealRowInfo>> sourceResult = new HashMap<>();
+            BlockCommentInfo blockCommentInfo = new BlockCommentInfo();
+            for (Integer rowNum : sourceDealMap.keySet()) {
+                DealRowInfo sourceRowInfo = sourceDealMap.get(rowNum);
+                String source = sourceRowInfo.getOrigin();
+                Pattern pattern = Pattern.compile(param.getRegExp());
+                Matcher matcher = pattern.matcher(source);
+                if (!param.getEqualType().match(matcher)) {
+                    continue;
+                }
+                Map<Integer, DealRowInfo> reverseRowInfoMap = new HashMap<>();
+                boolean inComments = false;
+
+                DealRowInfo lastRowInfo = sourceDealMap.get(rowNum - 1);
+                if (ReUtil.contains(param.getBlockEndMark(), lastRowInfo.getOrigin())) {
+                    inComments = true;
+                }
+                int tempReverseIndex = rowNum;
+                while (inComments) {
+                    DealRowInfo curReverseRow = sourceDealMap.get(--tempReverseIndex);
+                    if (ReUtil.contains(param.getBlockStartMark(), lastRowInfo.getOrigin())) {
+                        inComments = false;
+                    }
+                    reverseRowInfoMap.put(tempReverseIndex, curReverseRow);
+                }
+                String methodRow = sourceRowInfo.getDealed();
+                sourceResult.put(methodRow, reverseRowInfoMap);
+            }
+            if (CollUtil.isNotEmpty(sourceResult)) {
+                param.addResult(new JSONObject(sourceResult));
+            }
+        });
+        return param.getResults();
     }
 }
